@@ -39,6 +39,7 @@ SRC_DIRS += $(PROJECT_HOME_DIR)/src/MyModule
 
 TEST_SRC_FILES +=
 TEST_SRC_DIRS += tests
+TEST_SRC_DIRS += test-src
 
 # --- MOCKS_SRC_DIRS ---
 # MOCKS_SRC_DIRS specifies a directories where you can put your

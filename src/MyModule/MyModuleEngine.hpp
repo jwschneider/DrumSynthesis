@@ -15,6 +15,10 @@ namespace mymodule {
                 blinkPhase = 0.f;
                 controls = ctrl;
             };
+            ~MyModuleEngine()
+            {
+                delete controls;
+            }
             void process(float sampleRate, float sampleTime) override;
     };
 

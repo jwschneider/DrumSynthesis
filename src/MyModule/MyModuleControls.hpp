@@ -5,7 +5,11 @@ namespace mymodule
 {
     class MyModuleControls : public ModuleControls {
         public:
-            MyModuleControls(vector<Param>* p, vector<Output>* o, vector<Input>* i, vector<Light>* l, vector<ParamQuantity*>* pq) : ModuleControls {p, o, i, l, pq}
+            MyModuleControls(vector<Param>* p, vector<Output>* o, vector<Input>* i, vector<Light>* l) : ModuleControls {p, o, i, l}
+            {
+
+            }
+            ~MyModuleControls()
             {
 
             }
