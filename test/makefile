@@ -26,6 +26,7 @@ endif
 #
 SRC_FILES += 
 SRC_DIRS += $(PROJECT_HOME_DIR)/src
+SRC_DIRS += $(PROJECT_HOME_DIR)/src/MyModule
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
 # Test files are always included in the build.

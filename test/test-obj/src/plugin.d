@@ -122,7 +122,11 @@ test-obj/1/../src/plugin.o: ../src/plugin.cpp test-src/NewMacros.h \
  test-src/../../../cpputest/include/CppUTest/CppUTestGeneratedConfig.h \
  test-src/../../../cpputest/include/CppUTest/StandardCLibrary.h \
  C:/msys64/home/John/cpputest/include/CppUTest/MemoryLeakDetectorMallocMacros.h \
- C:/msys64/home/John/cpputest/include/CppUTest/CppUTestConfig.h
+ C:/msys64/home/John/cpputest/include/CppUTest/CppUTestConfig.h \
+ ../src/MyModule/MyModule.hpp ../src/MyModule/MyModuleEngine.hpp \
+ ../src/MyModule/../ModuleEngine.hpp \
+ ../src/MyModule/../ModuleControls.hpp \
+ ../src/MyModule/MyModuleControls.hpp
 test-src/NewMacros.h:
 test-src/../../src/plugin.hpp:
 C:/msys64/usr/local/Rack-SDK/include/rack.hpp:
@@ -248,3 +252,8 @@ test-src/../../../cpputest/include/CppUTest/CppUTestGeneratedConfig.h:
 test-src/../../../cpputest/include/CppUTest/StandardCLibrary.h:
 C:/msys64/home/John/cpputest/include/CppUTest/MemoryLeakDetectorMallocMacros.h:
 C:/msys64/home/John/cpputest/include/CppUTest/CppUTestConfig.h:
+../src/MyModule/MyModule.hpp:
+../src/MyModule/MyModuleEngine.hpp:
+../src/MyModule/../ModuleEngine.hpp:
+../src/MyModule/../ModuleControls.hpp:
+../src/MyModule/MyModuleControls.hpp:
