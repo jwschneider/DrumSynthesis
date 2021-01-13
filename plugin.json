@@ -14,6 +14,14 @@
   "changelogUrl": "",
   "modules": [
     {
+      "slug": "Kick",
+      "name": "Kick",
+      "description": "Kick Drum Generator",
+      "tags": [
+        "Drums"
+      ]
+    },
+    {
       "slug": "MyModule",
       "name": "MyModule",
       "description": "",
