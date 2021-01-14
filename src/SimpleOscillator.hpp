@@ -36,9 +36,18 @@ class SimpleOscillator {
         void reset() {
             phase = 0.f;
         }
+        // for testing
         float getPhase()
         {
             return phase;
+        }
+        float getFrequency()
+        {
+            return frequency;
+        }
+        float getMagnitude()
+        {
+            return magnitude;
         }
     private:
         float frequency;

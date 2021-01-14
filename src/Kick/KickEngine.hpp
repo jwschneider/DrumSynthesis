@@ -13,12 +13,16 @@ namespace kick{
         KickEngine(KickControls *controls)
         {
             this->controls = controls;
+            _ON = false;
         }
         ~KickEngine()
         {
             delete controls;
         }
         void process(float sampleRate, float sampleTime) override;
+        // public for testing purposes
+        DecayEnvelope lowDecay;
+        vector<SimpleOscillator*> lowOscillators;
         private:
         float phase = 0.f;
         float processLows(float sampleRate, float sampleTime);
@@ -35,8 +39,6 @@ namespace kick{
         // float _spread;
         // float _bend;
         // float _decay;
-        DecayEnvelope lowDecay;
-        vector<SimpleOscillator*> lowOscillators;
         rack::dsp::SchmittTrigger trigger;
     };
 } //namespace Kick
