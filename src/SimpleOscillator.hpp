@@ -26,18 +26,19 @@ class SimpleOscillator {
         void process(float sampleRate, float sampleTime)
         {
             phase += frequency * sampleTime;
-            if (phase >= 1.f)
-            {
-                phase -= 1.f;
-            }
+            phase -= floor(phase);
         }
         float getReal();
         float getImaginary()
         {
-            return sin2pi_pade_05_7_6(phase);
+            return magnitude * sin2pi_pade_05_7_6(phase);
         }
         void reset() {
             phase = 0.f;
+        }
+        float getPhase()
+        {
+            return phase;
         }
     private:
         float frequency;

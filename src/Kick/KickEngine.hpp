@@ -14,6 +14,10 @@ namespace kick{
         {
             this->controls = controls;
         }
+        ~KickEngine()
+        {
+            delete controls;
+        }
         void process(float sampleRate, float sampleTime) override;
         private:
         float phase = 0.f;

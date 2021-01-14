@@ -8,6 +8,10 @@ class KickControls : public ModuleControls {
     {
 
     }
+    ~KickControls()
+    {
+        
+    }
     void setOutputVoltage(float val);
     
     // Fundamental frequency in [10, 100] Hz

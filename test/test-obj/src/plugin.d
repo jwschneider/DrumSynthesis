@@ -126,7 +126,9 @@ test-obj/1/../src/plugin.o: ../src/plugin.cpp test-src/NewMacros.h \
  ../src/MyModule/MyModule.hpp ../src/MyModule/MyModuleEngine.hpp \
  ../src/MyModule/../ModuleEngine.hpp \
  ../src/MyModule/../ModuleControls.hpp \
- ../src/MyModule/MyModuleControls.hpp
+ ../src/MyModule/MyModuleControls.hpp ../src/Kick/Kick.hpp \
+ ../src/Kick/KickEngine.hpp ../src/Kick/KickControls.hpp \
+ ../src/Kick/../SimpleOscillator.hpp ../src/Kick/../DecayEnvelope.hpp
 test-src/NewMacros.h:
 test-src/../../src/plugin.hpp:
 C:/msys64/usr/local/Rack-SDK/include/rack.hpp:
@@ -257,3 +259,8 @@ C:/msys64/home/John/cpputest/include/CppUTest/CppUTestConfig.h:
 ../src/MyModule/../ModuleEngine.hpp:
 ../src/MyModule/../ModuleControls.hpp:
 ../src/MyModule/MyModuleControls.hpp:
+../src/Kick/Kick.hpp:
+../src/Kick/KickEngine.hpp:
+../src/Kick/KickControls.hpp:
+../src/Kick/../SimpleOscillator.hpp:
+../src/Kick/../DecayEnvelope.hpp:

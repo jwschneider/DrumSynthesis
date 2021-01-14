@@ -1,5 +1,5 @@
 #Set this to @ to keep the makefile quiet
-# SILENCE = @
+SILENCE = @
 
 #---- Outputs ----#
 COMPONENT_NAME = DrumSynthesis
@@ -27,6 +27,7 @@ endif
 SRC_FILES += 
 SRC_DIRS += $(PROJECT_HOME_DIR)/src
 SRC_DIRS += $(PROJECT_HOME_DIR)/src/MyModule
+SRC_DIRS += $(PROJECT_HOME_DIR)/src/Kick
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
 # Test files are always included in the build.
