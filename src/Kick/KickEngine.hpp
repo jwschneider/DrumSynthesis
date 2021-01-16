@@ -17,6 +17,7 @@ namespace kick{
         }
         ~KickEngine()
         {
+            reset();
             delete controls;
         }
         void process(float sampleRate, float sampleTime) override;

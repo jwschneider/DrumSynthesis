@@ -12,8 +12,6 @@ inline float VoltageToFrequency(float volts)
     return FREQ_C4 * std::pow(2, volts);
 }
 
-const float sqrt2 = 1.41421356237309504880;
-
 void KickControls::setOutputVoltage(float val)
 {
     this->setOutput(Kick::OUTPUT_OUTPUT, val);
@@ -24,15 +22,14 @@ float KickControls::getFundamentalFQ()
     float inputVoltage = this->getInput(Kick::LOW_FUNDAMENTAL_INPUT);
     float paramFQ = this->getParam(Kick::LOW_FUNDAMENTAL_PARAM);
     float ret = paramFQ * std::pow(2, inputVoltage);
-    return clamp(ret, 0.f, 90.f);
+    return clamp(ret, 10.f, 100.f);
 }
 float KickControls::getFQSpread()
 {
     float inputVoltage = this->getInput(Kick::LOW_SPREAD_INPUT);
-    float inputFQ = VoltageToFrequency(inputVoltage);
-    inputFQ = clamp(inputFQ, 0.f, 90.f);
     float paramFQ = this->getParam(Kick::LOW_SPREAD_PARAM);
-    return inputFQ + paramFQ;
+    float ret = paramFQ * std::pow(2, inputVoltage);
+    return clamp(ret, 0.f, 90.f);
 }
 float KickControls::getBend()
 {
@@ -49,15 +46,14 @@ int KickControls::getPartials()
 }
 float KickControls::getLevel()
 {
-    return 5.f * (this->getInput(Kick::LOW_LEVEL_INPUT)*(sqrt2/10.f) + this->getParam(Kick::LOW_LEVEL_PARAM)) / 2.f;
+    float ret = 5.f * (this->getInput(Kick::LOW_LEVEL_INPUT)*(M_SQRT2/10.f) + this->getParam(Kick::LOW_LEVEL_PARAM));
+    return clamp(ret, 0.f, 5 * M_SQRT2);
 }
 float KickControls::getLowDecay()
 {
-    float inputVoltage = this->getInput(Kick::LOW_DECAY_INPUT);
-    float inputSeconds = std::pow(2, inputVoltage / 5.f - 2.f);
+    float inputVoltage = this->getInput(Kick::LOW_DECAY_INPUT) * 2.f / 5.f; // [-5, 5] -> [-2, 2]
     float paramVoltage = this ->getParam(Kick::LOW_DECAY_PARAM);
-    float paramSeconds = std::pow(2, paramVoltage);
-    return inputSeconds + paramSeconds;
+    return std::pow(10, inputVoltage + paramVoltage);
 }
 float KickControls::getLongestDecay()
 {

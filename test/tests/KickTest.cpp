@@ -48,11 +48,27 @@ TEST(KickTestControls, Fundamental)
 
 TEST(KickTestControls, Partials)
 {
-    float partials = 1.3;
+    float partials = 1.5;
     _harness->setParam(Kick::LOW_PARTIALS_PARAM, partials);
     CHECK_EQUAL(floor(partials), _controls->getPartials());
-    _harness->setInput(Kick::LOW_PARTIALS_INPUT, 10.f / 16.f);
+    _harness->setInput(Kick::LOW_PARTIALS_INPUT, 15.f / 16.f);
     CHECK_EQUAL(2, _controls->getPartials());
+}
+
+TEST(KickTestControls, Spread)
+{
+    float spread = 10.f;
+    _harness->setParam(Kick::LOW_SPREAD_PARAM, spread);
+    CHECK_EQUAL(spread, _controls->getFQSpread());
+    _harness->setInput(Kick::LOW_SPREAD_INPUT, 1.f); // one octave higher
+    CHECK_EQUAL(2*spread, _controls->getFQSpread());
+}
+
+TEST(KickTestControls, Decay)
+{
+    float decay = -1.f;
+    _harness->setParam(Kick::LOW_DECAY_PARAM, decay);
+    DOUBLES_EQUAL(0.1, _controls->getLowDecay(), 0.001);
 }
 
 TEST_GROUP(KickTestSimple)
@@ -68,7 +84,7 @@ TEST_GROUP(KickTestSimple)
         float partials = 1.0;
         float spread = 10.f;
         float bend = 0.f;
-        float decay = 0.1f;
+        float decay = -1.f;
         float level = 1.f;
         _harness->setParam(Kick::LOW_FUNDAMENTAL_PARAM, fundamental);
         _harness->setParam(Kick::LOW_PARTIALS_PARAM, partials);
