@@ -3,7 +3,7 @@
 class TestHarness {
     public:
         TestHarness() = default;        
-        TestHarness(int numParams, int numInputs, int numOutputs, int numLights);
+        TestHarness(int numParams, int numOutputs, int numInputs, int numLights);
         ~TestHarness();
         void setParam(int param, float val);
         void setInput(int input, float val);
@@ -14,6 +14,6 @@ class TestHarness {
         vector<Input> inputs;
         vector<Light> lights;
     private:
-        void initMembers(int numParams, int numInputs, int numOutputs, int numLights);
+        void initMembers(int numParams, int numOutputs, int numInputs, int numLights);
         void destroyMembers();
 };

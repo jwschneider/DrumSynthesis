@@ -10,11 +10,12 @@ class KickControls : public ModuleControls {
     }
     ~KickControls()
     {
-        
+
     }
     void setOutputVoltage(float val);
     
     // Fundamental frequency in [10, 100] Hz
+    // FQ = C_4 * 2^(Vp + Vi)
     float getFundamentalFQ();
     // Frequency spread in [0, 90] Hz
     float getFQSpread();
@@ -22,7 +23,7 @@ class KickControls : public ModuleControls {
     float getBend();
     // Gets number of partials to include in [0, 16]
     int getPartials();
-    // Gets amplitude in [0, 1]
+    // Gets amplitude in [0, 5*sqrt(2)]
     float getLevel();
     // Gets low FQ decay time in [0.01, 1]s
     float getLowDecay();

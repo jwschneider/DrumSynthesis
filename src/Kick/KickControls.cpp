@@ -21,11 +21,10 @@ void KickControls::setOutputVoltage(float val)
 
 float KickControls::getFundamentalFQ()
 {
-    float intputVoltage = this->getInput(Kick::LOW_FUNDAMENTAL_INPUT);
-    float inputFQ = VoltageToFrequency(intputVoltage);
-    inputFQ = clamp(inputFQ, 10.f, 50.f);
+    float inputVoltage = this->getInput(Kick::LOW_FUNDAMENTAL_INPUT);
     float paramFQ = this->getParam(Kick::LOW_FUNDAMENTAL_PARAM);
-    return inputFQ + paramFQ;
+    float ret = paramFQ * std::pow(2, inputVoltage);
+    return clamp(ret, 0.f, 90.f);
 }
 float KickControls::getFQSpread()
 {
@@ -50,7 +49,7 @@ int KickControls::getPartials()
 }
 float KickControls::getLevel()
 {
-    return (this->getInput(Kick::LOW_LEVEL_INPUT)*(sqrt2/10.f) + this->getParam(Kick::LOW_LEVEL_PARAM)) / 2.f;
+    return 5.f * (this->getInput(Kick::LOW_LEVEL_INPUT)*(sqrt2/10.f) + this->getParam(Kick::LOW_LEVEL_PARAM)) / 2.f;
 }
 float KickControls::getLowDecay()
 {
