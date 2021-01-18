@@ -2,7 +2,6 @@
 
 using namespace kick;
 
-const float sqrt2 = 1.41421356237309504880;
 
 Kick::Kick() {
 	config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
@@ -11,13 +10,13 @@ Kick::Kick() {
 	configParam(LOW_SPREAD_PARAM, 0.f, 60.f, 20.f, "Voice Spread", "Hz");
 	configParam(LOW_BEND_PARAM, 0.01f, 1.f, 0.5f, "Bend in decay of partial magnitude");
 	configParam(LOW_DECAY_PARAM, -2.f, 0.f, -1.f, "Decay time", "s", 10.f, 1.f);
-	configParam(LOW_LEVEL_PARAM, 0.f, sqrt2, 1.f, "Fundamental level", "db", -10.f, 40.f);
-	configParam(MID_TONE_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(MID_CHARACTER_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(MID_LP_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(MID_HP_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(MID_DECAY_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(MID_LEVEL_PARAM, 0.f, 1.f, 0.f, "");
+	configParam(LOW_LEVEL_PARAM, 0.f, M_SQRT2, 1.f, "Fundamental level", "db", -10.f, 40.f);
+	configParam(MID_TONE_PARAM, 0.f, 2.f, 1.f, "Midrange Tone FQ", "Hz", 2, dsp::FREQ_A4);
+	configParam(MID_CHARACTER_PARAM, 0.f, 2.f, 1.f, "Midrange Character Param FQ", "Hz", 2, dsp::FREQ_A4);
+	configParam(MID_LP_PARAM, -2.f, 1.f, 0.f, "Low Pass FQ", "Hz", 2, dsp::FREQ_C4);
+	configParam(MID_HP_PARAM, -2.f, 1.f, -1.f, "High Pass FQ", "Hz", 2, dsp::FREQ_C4);
+	configParam(MID_DECAY_PARAM, -2.f, 0.f, -1.f, "Midrange Decay Time", "s", 10, 1.f);
+	configParam(MID_LEVEL_PARAM, 0.f, M_SQRT2, 1.f, "Midrange level", "db", -10.f, 40);
 	configParam(HEAD_TONE_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(HEAD_CHARACTER_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(HEAD_LP_PARAM, 0.f, 1.f, 0.f, "");

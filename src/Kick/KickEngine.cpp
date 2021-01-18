@@ -80,7 +80,7 @@ float KickEngine::processLows(float sampleRate, float sampleTime)
     }
     lowDecay.process(sampleRate, sampleTime);
     acc *= lowDecay.getValue();
-    acc *= controls->getLevel();
+    acc *= controls->getLowLevel();
     return acc;
 }
 

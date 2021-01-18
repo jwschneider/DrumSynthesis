@@ -25,7 +25,7 @@ class KickControls : public ModuleControls {
     // Gets number of partials to include in [0, 16]
     int getPartials();
     // Gets amplitude in [0, 5*sqrt(2)]
-    float getLevel();
+    float getLowLevel();
     // Gets low FQ decay time in [0.01, 1]s
     // D = 10^(Vi + Vp) where Vp [-2, 0] and Vi [-2, 2]
     float getLowDecay();
@@ -33,5 +33,17 @@ class KickControls : public ModuleControls {
     float getLongestDecay();
     // Gets trigger
     float getTrigger();
+    // Mid Tone FQ in [440, 1760] Hz
+    float getMidTone();
+    // Mid Character FQ in [440, 1760] Hz
+    float getMidCharacter();
+    // Mid LP Frequency
+    float getMidLP();
+    // Mid HP Frequency
+    float getMidHP();
+    // D = 10^(Vi + Vp) where Vp [-2, 0] and Vi [-2, 2]
+    float getMidDecay();
+    // Gets amplitude in [0, 5*sqrt(2)]
+    float getMidLevel();
 };
 } //namespace Kick
