@@ -57,7 +57,7 @@ float KickControls::getLowDecay()
 }
 float KickControls::getLongestDecay()
 {
-    return getLowDecay();
+    return std::max(getLowDecay(), getMidDecay());
 }
 float KickControls::getTrigger()
 {
@@ -67,13 +67,21 @@ float KickControls::getTrigger()
 float KickControls::getMidTone()
 {
     float paramVoltage = this->getParam(Kick::MID_TONE_PARAM);
-    float inputVoltage = this->getInput(Kick::MID_TONE_INPUT);
+    float inputVoltage = this->getInput(Kick::MID_TONE_INPUT) / 5.f;
     return FREQ_A4 * std::pow(2, paramVoltage + inputVoltage);
 }
+
+float KickControls::getMidToneVoltage()
+{
+    float paramVoltage = this->getParam(Kick::MID_TONE_PARAM);
+    float inputVoltage = this->getInput(Kick::MID_TONE_INPUT);
+    return paramVoltage + inputVoltage;
+}
+
 float KickControls::getMidCharacter()
 {
     float paramVoltage = this->getParam(Kick::MID_CHARACTER_PARAM);
-    float inputVoltage = this->getInput(Kick::MID_CHARACTER_INPUT);
+    float inputVoltage = this->getInput(Kick::MID_CHARACTER_INPUT) / 5.f;
     return FREQ_A4 * std::pow(2, paramVoltage + inputVoltage);
 }
 float KickControls::getMidLP()
@@ -96,6 +104,6 @@ float KickControls::getMidDecay()
 }
 float KickControls::getMidLevel()
 {
-    float ret = 5.f * (this->getInput(Kick::LOW_LEVEL_INPUT)*(M_SQRT2/10.f) + this->getParam(Kick::LOW_LEVEL_PARAM));
+    float ret = 5.f * (this->getInput(Kick::MID_LEVEL_INPUT)*(M_SQRT2/10.f) + this->getParam(Kick::MID_LEVEL_PARAM));
     return clamp(ret, 0.f, 5 * M_SQRT2);
 }

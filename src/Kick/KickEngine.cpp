@@ -38,6 +38,12 @@ void KickEngine::updateState(float sampleRate, float sampleTime)
 // Assumes a clean slate
 void KickEngine::init(float sampleRate)
 {
+    initLows(sampleRate);
+    initMids(sampleRate);
+}
+
+void KickEngine::initLows(float sampleRate)
+{
     float fun = controls->getFundamentalFQ();
     int partials = controls->getPartials();
     float spread = controls->getFQSpread();
@@ -60,6 +66,16 @@ void KickEngine::init(float sampleRate)
     lowDecay.init(decay, sampleRate);
 }
 
+void KickEngine::initMids(float sampleRate)
+{
+    float tone = controls->getMidTone();
+    float character = controls->getMidCharacter();
+    midOscillators[0] = new SimpleOscillator(tone);
+    midOscillators[1] = new SimpleOscillator(character);
+    float decay = controls->getMidDecay();
+    midDecay.init(decay, sampleRate);
+}
+
 // Cleans the slate
 void KickEngine::reset()
 {
@@ -68,6 +84,8 @@ void KickEngine::reset()
         delete lowOscillators.back();
         lowOscillators.pop_back();
     }
+    if (midOscillators[0] != NULL) delete midOscillators[0];
+    if (midOscillators[1] != NULL) delete midOscillators[1];
 }
 
 float KickEngine::processLows(float sampleRate, float sampleTime)
@@ -86,7 +104,12 @@ float KickEngine::processLows(float sampleRate, float sampleTime)
 
 float KickEngine::processMids(float sampleRate, float sampleTime)
 {
-    return 0;
+    midOscillators[1]->setFrequency(controls->getMidCharacter());
+    midOscillators[0]->setFrequency(rack::dsp::FREQ_A4 * (controls->getMidToneVoltage() + midOscillators[1]->getImaginary()));
+    midOscillators[1]->process(sampleRate, sampleTime);
+    midOscillators[0]->process(sampleRate, sampleTime);
+    midDecay.process(sampleRate, sampleTime);
+    return midOscillators[0]->getImaginary() * midDecay.getValue() * controls->getMidLevel(); 
 }
 
 float KickEngine::processHighs(float sampleRate, float sampleTime)

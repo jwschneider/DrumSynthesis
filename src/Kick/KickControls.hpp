@@ -35,6 +35,8 @@ class KickControls : public ModuleControls {
     float getTrigger();
     // Mid Tone FQ in [440, 1760] Hz
     float getMidTone();
+    // Mid Tone Voltage in [0, 2] V
+    float getMidToneVoltage();
     // Mid Character FQ in [440, 1760] Hz
     float getMidCharacter();
     // Mid LP Frequency
