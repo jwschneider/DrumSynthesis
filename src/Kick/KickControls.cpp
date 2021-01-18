@@ -33,9 +33,9 @@ float KickControls::getFQSpread()
 }
 float KickControls::getBend()
 {
-    float inputBend = this->getInput(Kick::LOW_BEND_INPUT) / 5.f;
+    float inputBend = this->getInput(Kick::LOW_BEND_INPUT) / 10.f;
     float paramBend = this->getParam(Kick::LOW_BEND_PARAM);
-    return inputBend + paramBend;
+    return clamp(inputBend + paramBend, 0.01, 1.f);
 }
 // TODO make this knob only have a discrete set of integer choices
 int KickControls::getPartials()

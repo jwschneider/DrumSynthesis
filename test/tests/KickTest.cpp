@@ -133,8 +133,8 @@ TEST_GROUP(PartialsAndBend)
         float fundamental = 10.f;
         float partials = 3.5;
         float spread = 10.f;
-        float bend = 0.f;
-        float decay = 0.f;
+        float bend = 0.5f;
+        float decay = -1.f;
         float level = 1.f;
         _harness->setParam(Kick::LOW_FUNDAMENTAL_PARAM, fundamental);
         _harness->setParam(Kick::LOW_PARTIALS_PARAM, partials);
@@ -150,3 +150,65 @@ TEST_GROUP(PartialsAndBend)
         delete _engine;
     }
 };
+
+TEST(PartialsAndBend, TestOne)
+{    
+    float sampleRate = 44100.f;
+    float tolerance = 0.001;
+    _engine->process(sampleRate, 0); // trigger needs input to start at 0
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0);
+    CHECK_EQUAL(3, _engine->lowOscillators.size());
+    DOUBLES_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency(), tolerance);
+    DOUBLES_EQUAL(1.f / 2.207106, _engine->lowOscillators[0]->getMagnitude(), tolerance);
+    DOUBLES_EQUAL(20.f, _engine->lowOscillators[1]->getFrequency(), tolerance);
+    DOUBLES_EQUAL(0.707106 / 2.207106, _engine->lowOscillators[1]->getMagnitude(), tolerance);
+    DOUBLES_EQUAL(30.f, _engine->lowOscillators[2]->getFrequency(), tolerance);
+    DOUBLES_EQUAL(0.5 / 2.207106, _engine->lowOscillators[2]->getMagnitude(), tolerance);
+}
+
+TEST_GROUP(KickTestDefault)
+{
+    KickEngine *_engine;
+    TestHarness *_harness;  
+    void setup()
+    {
+        _harness = new TestHarness(Kick::NUM_PARAMS, Kick::NUM_OUTPUTS, Kick::NUM_INPUTS, Kick::NUM_LIGHTS);
+        KickControls *controls = new KickControls(&_harness->params, &_harness->outputs, &_harness->inputs, &_harness->lights);
+        _engine = new KickEngine(controls);
+        float fundamental = 30.f;
+        float partials = 8;
+        float spread = 45.f;
+        float bend = 0.5f;
+        float decay = -1.f;
+        float level = 1.f;
+        _harness->setParam(Kick::LOW_FUNDAMENTAL_PARAM, fundamental);
+        _harness->setParam(Kick::LOW_PARTIALS_PARAM, partials);
+        _harness->setParam(Kick::LOW_SPREAD_INPUT, spread);
+        _harness->setParam(Kick::LOW_BEND_PARAM, bend);
+        _harness->setParam(Kick::LOW_DECAY_PARAM, decay);
+        _harness->setParam(Kick::LOW_LEVEL_PARAM, level);
+        _harness->setInput(Kick::TRIG_INPUT, 0.f);
+    }
+    void teardown()
+    {
+        delete _harness;
+        delete _engine;
+    }
+};
+
+TEST(KickTestDefault, TestOne)
+{
+    float sampleRate = 44100.f;
+    float secondsPerSample = 1.f / sampleRate;
+    //float tolerance = 0.001;
+    _engine->process(sampleRate, 0); // trigger needs input to start at 0
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0);
+    for (float i = 0.f; i < 1.0; i += secondsPerSample)
+    {
+        _engine->process(sampleRate, secondsPerSample);
+        float output = _harness->getOutput(Kick::OUTPUT_OUTPUT);
+        CHECK_TEXT((output <= 5.f) && (output >= -5.f), "Output voltage is out of bounds [-5, 5]");
+    }
+}

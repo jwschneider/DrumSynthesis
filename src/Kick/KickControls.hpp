@@ -20,7 +20,7 @@ class KickControls : public ModuleControls {
     // Frequency spread in [0, 90] Hz
     // FS = C_4 * 2^(Vp + Vi)
     float getFQSpread();
-    // Get Bend in [-1, 1] unitless
+    // Get Bend in [0.01, 1] unitless
     float getBend();
     // Gets number of partials to include in [0, 16]
     int getPartials();

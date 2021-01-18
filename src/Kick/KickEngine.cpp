@@ -4,7 +4,12 @@ using namespace kick;
 
 float scaleFrequency(float freq, float fundamental, float spread, int partials, float bend)
 {
-    return (1 + bend * (spread * (partials - 1) * freq + fundamental));
+    if (partials > 1)
+    {
+        float lambda = -std::log(bend) / (spread * (partials - 1));
+        return std::exp(-lambda * (freq - fundamental));
+    }
+    else return 1.f;
 }
 
 // Manages _ON sets up and tears down state
@@ -38,12 +43,19 @@ void KickEngine::init(float sampleRate)
     int partials = controls->getPartials();
     float spread = controls->getFQSpread();
     float bend = controls->getBend();
+    float totalMag = 0.f;
     for (int i = 0; i < partials; i++)
     {
         float frequency = fun + spread * i;
         SimpleOscillator *osc = new SimpleOscillator(frequency);
-        osc->setMagnitude(scaleFrequency(frequency, fun, spread, partials, bend));
+        float magnitude = scaleFrequency(frequency, fun, spread, partials, bend);
+        osc->setMagnitude(magnitude);
+        totalMag += magnitude;
         lowOscillators.push_back(osc);
+    }
+    for (vector<SimpleOscillator*>::iterator iter = lowOscillators.begin(); iter != lowOscillators.end(); ++iter)
+    {
+        (*iter)->setMagnitude((*iter)->getMagnitude() / totalMag);
     }
     float decay = controls->getLowDecay();
     lowDecay.init(decay, sampleRate);

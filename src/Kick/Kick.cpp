@@ -9,7 +9,7 @@ Kick::Kick() {
 	configParam(LOW_FUNDAMENTAL_PARAM, 10.f, 50.f, 30.f, "Low Fundamental FQ", "Hz");
 	configParam(LOW_PARTIALS_PARAM, 0, 16, 8, "Number of partials");
 	configParam(LOW_SPREAD_PARAM, 0.f, 90.f, 45.f, "Voice Spread", "Hz");
-	configParam(LOW_BEND_PARAM, -1.f, 1.f, 0.f, "Bend in decay of partial magnitude");
+	configParam(LOW_BEND_PARAM, 0.01f, 1.f, 0.5f, "Bend in decay of partial magnitude");
 	configParam(LOW_DECAY_PARAM, -2.f, 0.f, -1.f, "Decay time", "s", 10.f, 1.f);
 	configParam(LOW_LEVEL_PARAM, 0.f, sqrt2, 1.f, "Fundamental level", "db", -10.f, 40.f);
 	configParam(MID_TONE_PARAM, 0.f, 1.f, 0.f, "");
