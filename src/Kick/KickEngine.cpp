@@ -15,24 +15,23 @@ float scaleFrequency(float freq, float fundamental, float spread, int partials, 
 // Manages _ON sets up and tears down state
 void KickEngine::updateState(float sampleRate, float sampleTime)
 {
-    if (!_ON)
+    bool trig = trigger.process(controls->getTrigger());
+    if (trig)
     {
-        if (trigger.process(controls->getTrigger()))
-        {
-            init(sampleRate);
-            _ON = true;
-            _currentTime = 0.f;
-            _endTime = controls->getLongestDecay();
-        }
+        reset();
+        init(sampleRate);
+        _ON = true;
+        _currentTime = 0.f;
+        _endTime = controls->getLongestDecay();
     }
-    else
+    else if (_ON)
     {
         _currentTime += sampleTime;
         _ON = _currentTime < _endTime;
-        if (!_ON)
-        {
-            reset();
-        }
+    }
+    else
+    {
+        reset();
     }
 }
 

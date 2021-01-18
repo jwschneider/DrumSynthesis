@@ -116,9 +116,21 @@ TEST(KickTestSimple, TestOne)
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 
-TEST(KickTestSimple, TestTwo)
+TEST(KickTestSimple, RetriggerTest)
 {
+    float sampleRate = 44100.f;
+    float tolerance = 0.001;
+    _engine->process(sampleRate, 0); // trigger needs input to start at 0
     _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0);
+    _harness->setInput(Kick::TRIG_INPUT, 0.0);
+    _engine->process(sampleRate, 0.025f); // 1/4 cycle
+    float expected = 1.f * 0.1 * 5; // osc.getIm * decay(0.025) * level
+    DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0.025f);
+    expected = 1.f * 0.1 * 5;
+    DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 
 TEST_GROUP(PartialsAndBend)
