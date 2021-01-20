@@ -1,7 +1,7 @@
 #pragma once
 #include "../ModuleEngine.hpp"
 #include "KickControls.hpp"
-#include "../SimpleOscillator.hpp"
+#include "../FMOscillator.hpp"
 #include "../DecayEnvelope.hpp"
 #include <dsp/digital.hpp>
 
@@ -24,8 +24,10 @@ namespace kick{
         // public for testing purposes
         DecayEnvelope lowDecay;
         vector<SimpleOscillator*> lowOscillators;
-        SimpleOscillator* midOscillators [2];
+        FMOscillator midOscillator;
         DecayEnvelope midDecay;
+        float midModIndex;
+        DecayEnvelope midModDecay;
         private:
         float phase = 0.f;
         float processLows(float sampleRate, float sampleTime);

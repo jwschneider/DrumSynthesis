@@ -49,7 +49,7 @@ class SimpleOscillator {
         {
             return magnitude;
         }
-    private:
+    protected:
         float frequency;
         float magnitude;
         float phase;
