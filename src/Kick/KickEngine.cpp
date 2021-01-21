@@ -60,7 +60,7 @@ void KickEngine::initLows(float sampleRate)
     }
     for (vector<SimpleOscillator*>::iterator iter = lowOscillators.begin(); iter != lowOscillators.end(); ++iter)
     {
-        (*iter)->setMagnitude((*iter)->getMagnitude() / totalMag);
+        (*iter)->setMagnitude((*iter)->getMagnitude() / (totalMag));
     }
     float decay = controls->getLowDecay();
     lowDecay.init(decay, sampleRate);
@@ -70,7 +70,7 @@ void KickEngine::initMids(float sampleRate)
 {
     float tone = controls->getMidTone();
     float character = controls->getMidCharacter();
-    midModIndex = 4.f;
+    midModIndex = 2.f;
     midOscillator = FMOscillator(tone, character, midModIndex);
     float decay = controls->getMidDecay();
     midDecay.init(decay, sampleRate);

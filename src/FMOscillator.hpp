@@ -15,6 +15,7 @@ class FMOscillator : public SimpleOscillator
             modulator.setFrequency(modulatorFQ);
             modIndex = mIndex;
         }
+        ~FMOscillator() {}
         void process(float sampleRate, float sampleTime) override
         {
             modulator.process(sampleRate, sampleTime);

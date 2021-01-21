@@ -15,6 +15,7 @@ class SimpleOscillator {
         SimpleOscillator(float freq) : SimpleOscillator {} {
             frequency = freq;
         }
+        virtual ~SimpleOscillator() {}
         void setFrequency(float freq)
         {
             frequency = freq;
@@ -23,7 +24,7 @@ class SimpleOscillator {
         {
             magnitude = mag;
         }
-        void process(float sampleRate, float sampleTime)
+        virtual void process(float sampleRate, float sampleTime)
         {
             phase += frequency * sampleTime;
             phase -= floor(phase);
