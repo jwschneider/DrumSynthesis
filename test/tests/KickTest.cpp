@@ -224,3 +224,59 @@ TEST(KickTestDefault, TestOne)
         CHECK_TEXT((output <= 5.f) && (output >= -5.f), "Output voltage is out of bounds [-5, 5]");
     }
 }
+
+TEST_GROUP(AntiClickTest)
+{
+        KickEngine *_engine;
+    TestHarness *_harness;  
+    void setup()
+    {
+        _harness = new TestHarness(Kick::NUM_PARAMS, Kick::NUM_OUTPUTS, Kick::NUM_INPUTS, Kick::NUM_LIGHTS);
+        KickControls *controls = new KickControls(&_harness->params, &_harness->outputs, &_harness->inputs, &_harness->lights);
+        _engine = new KickEngine(controls);
+
+        float tone = -1.f;
+        float character = 0.f;
+        float lp = 0.f;
+        float hp = -1.f;
+        float decay = -1.f;
+        float level = 1.f;
+        _harness->setParam(Kick::MID_TONE_PARAM, tone);
+        _harness->setParam(Kick::MID_CHARACTER_PARAM, character);
+        _harness->setParam(Kick::MID_LP_PARAM, lp);
+        _harness->setParam(Kick::MID_HP_PARAM, hp);
+        _harness->setParam(Kick::MID_DECAY_PARAM, decay);
+        _harness->setParam(Kick::MID_LEVEL_PARAM, level); 
+    }
+    void teardown()
+    {
+        delete _harness;
+        delete _engine;
+    }
+};
+
+TEST(AntiClickTest, TestOne)
+{
+    float sampleRate = 44100.f;
+    float secondsPerSample = 1.f / sampleRate;
+    float tolerance = 0.1;
+    _harness->setInput(Kick::TRIG_INPUT, 0.f);
+    _engine->process(sampleRate, 0); // trigger needs input to start at 0
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0);
+    _harness->setInput(Kick::TRIG_INPUT, 0.f);
+    float currentValue = _harness->getOutput(Kick::OUTPUT_OUTPUT);
+    for (float i = 0.f; i < 0.5; i += secondsPerSample)
+    {
+        _engine->process(sampleRate, secondsPerSample);
+        CHECK_TEXT(abs(currentValue - _harness->getOutput(Kick::OUTPUT_OUTPUT)) < tolerance, "Discontinuity between samples > 0.1V first trigger");
+        currentValue = _harness->getOutput(Kick::OUTPUT_OUTPUT);
+    }
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    for (float i = 0.f; i < 0.5; i += secondsPerSample)
+    {
+        _engine->process(sampleRate, secondsPerSample);
+        CHECK_TEXT(abs(currentValue - _harness->getOutput(Kick::OUTPUT_OUTPUT)) < tolerance, "Discontinuity between samples > 0.1V second trigger");
+        currentValue = _harness->getOutput(Kick::OUTPUT_OUTPUT);
+    }
+}

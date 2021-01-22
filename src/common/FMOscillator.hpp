@@ -23,6 +23,11 @@ class FMOscillator : public SimpleOscillator
             phase += frequency * sampleTime;
             phase -= floor(phase);
         }
+        void reset() override 
+        {
+            phase = 0.f;
+            modulator.reset();
+        }
         float getModFQ()
         {
             return modulator.getFrequency();

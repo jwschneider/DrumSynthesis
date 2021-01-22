@@ -4,6 +4,10 @@
 #include "../common/FMOscillator.hpp"
 #include "../common/LinearDecayEnvelope.hpp"
 #include <dsp/digital.hpp>
+#include <dsp/filter.hpp>
+#include "../common/Filter.hpp"
+
+using namespace rack::dsp;
 
 namespace kick{
 
@@ -28,6 +32,9 @@ namespace kick{
         DecayEnvelope midDecay;
         float midModIndex;
         DecayEnvelope midModDecay;
+        LadderFilter<float> midLPF;
+        LadderFilter<float> midHPF;
+
         private:
         float phase = 0.f;
         float processLows(float sampleRate, float sampleTime);

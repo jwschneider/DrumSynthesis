@@ -70,11 +70,13 @@ void KickEngine::initMids(float sampleRate)
 {
     float tone = controls->getMidTone();
     float character = controls->getMidCharacter();
-    midModIndex = 2.f;
+    midModIndex = 8.f;
     midOscillator = FMOscillator(tone, character, midModIndex);
     float decay = controls->getMidDecay();
     midDecay.init(decay, sampleRate);
     midModDecay.init(decay * 2.f / 3.f, sampleRate);
+    midLPF.setCutoff(controls->getMidLP());
+    midHPF.setCutoff(controls->getMidHP());
 }
 
 // Cleans the slate
@@ -85,6 +87,7 @@ void KickEngine::reset()
         delete lowOscillators.back();
         lowOscillators.pop_back();
     }
+    midOscillator.reset();
 }
 
 float KickEngine::processLows(float sampleRate, float sampleTime)
@@ -111,7 +114,9 @@ float KickEngine::processMids(float sampleRate, float sampleTime)
     midOscillator.setModIndex(midOscillator.getModIndex() * midModDecay.getValue());
     midOscillator.process(sampleRate, sampleTime);
     midDecay.process(sampleRate, sampleTime);
-    return midOscillator.getImaginary() * midDecay.getValue() * controls->getMidLevel(); 
+    midLPF.process(midOscillator.getImaginary(), sampleTime);
+    midHPF.process(midLPF.lowpass(), sampleTime);
+    return midHPF.highpass() * midDecay.getValue() * controls->getMidLevel(); 
 }
 
 float KickEngine::processHighs(float sampleRate, float sampleTime)

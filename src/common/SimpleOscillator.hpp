@@ -34,7 +34,7 @@ class SimpleOscillator {
         {
             return magnitude * sin2pi_pade_05_7_6(phase);
         }
-        void reset() {
+        virtual void reset() {
             phase = 0.f;
         }
         // for testing
