@@ -6,6 +6,7 @@
 #include <dsp/digital.hpp>
 #include <dsp/filter.hpp>
 #include "../common/Filter.hpp"
+#include "../common/EnvelopeGenerator.hpp"
 
 using namespace rack::dsp;
 
@@ -26,12 +27,12 @@ namespace kick{
         }
         void process(float sampleRate, float sampleTime) override;
         // public for testing purposes
-        DecayEnvelope lowDecay;
+        EnvelopeGenerator lowDecay;
         vector<SimpleOscillator*> lowOscillators;
         FMOscillator midOscillator;
-        DecayEnvelope midDecay;
+        EnvelopeGenerator midDecay;
         float midModIndex;
-        DecayEnvelope midModDecay;
+        EnvelopeGenerator midModDecay;
         LadderFilter<float> midLPF;
         LadderFilter<float> midHPF;
 

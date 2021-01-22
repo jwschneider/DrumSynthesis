@@ -63,7 +63,7 @@ void KickEngine::initLows(float sampleRate)
         (*iter)->setMagnitude((*iter)->getMagnitude() / (totalMag));
     }
     float decay = controls->getLowDecay();
-    lowDecay.init(decay, sampleRate);
+    lowDecay.init(1.f / (2*fun), decay, 0.f, 0.f, sampleRate);
 }
 
 void KickEngine::initMids(float sampleRate)
@@ -73,8 +73,8 @@ void KickEngine::initMids(float sampleRate)
     midModIndex = 8.f;
     midOscillator = FMOscillator(tone, character, midModIndex);
     float decay = controls->getMidDecay();
-    midDecay.init(decay, sampleRate);
-    midModDecay.init(decay * 2.f / 3.f, sampleRate);
+    midDecay.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
+    midModDecay.init(0.f, decay * 2.f / 3.f, 0.25, 0.f, sampleRate);
     midLPF.setCutoff(controls->getMidLP());
     midHPF.setCutoff(controls->getMidHP());
 }
@@ -99,7 +99,7 @@ float KickEngine::processLows(float sampleRate, float sampleTime)
         acc += (*iter)->getImaginary();
     }
     lowDecay.process(sampleRate, sampleTime);
-    acc *= lowDecay.getValue();
+    acc *= lowDecay.getValue() * 4.f; // makeup gain
     acc *= controls->getLowLevel();
     return acc;
 }
@@ -111,12 +111,12 @@ float KickEngine::processMids(float sampleRate, float sampleTime)
     // midModulator.process(sampleRate, sampleTime);
     // midCarrier.process(sampleRate, sampleTime);
     midModDecay.process(sampleRate, sampleTime);
-    midOscillator.setModIndex(midOscillator.getModIndex() * midModDecay.getValue());
+    //midOscillator.setModIndex(midOscillator.getModIndex() * midModDecay.getValue());
     midOscillator.process(sampleRate, sampleTime);
     midDecay.process(sampleRate, sampleTime);
     midLPF.process(midOscillator.getImaginary(), sampleTime);
     midHPF.process(midLPF.lowpass(), sampleTime);
-    return midHPF.highpass() * midDecay.getValue() * controls->getMidLevel(); 
+    return midHPF.highpass() * midDecay.getValue() * controls->getMidLevel() * 5.f; 
 }
 
 float KickEngine::processHighs(float sampleRate, float sampleTime)
