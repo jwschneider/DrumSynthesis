@@ -1,5 +1,5 @@
 #pragma once
-#include "../ModuleControls.hpp"
+#include "../common/ModuleControls.hpp"
 
 namespace mymodule
 {

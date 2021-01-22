@@ -1,5 +1,5 @@
 #include "CppUTest/TestHarness.h"
-#include "../../src/DecayEnvelope.hpp"
+#include "../../src/common/DecayEnvelope.hpp"
 
 TEST_GROUP(DecayEnvelopeTest)
 {
@@ -19,7 +19,7 @@ TEST(DecayEnvelopeTest, test1)
 {
     float tolerance = 0.001;
     const float maximumLevel = 1.f;
-    const float minimumLevel = 0.0001;
+    const float minimumLevel = 0.01;
     float sampleRate = 44100.f;
     float duration = 1.0;
     decay->init(duration, sampleRate);

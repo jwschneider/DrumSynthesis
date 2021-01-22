@@ -1,4 +1,4 @@
-#include "../../src/ModuleControls.hpp"
+#include "../../src/common/ModuleControls.hpp"
 
 class TestHarness {
     public:

@@ -112,7 +112,7 @@ TEST(KickTestSimple, TestOne)
     CHECK_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency());
     CHECK_EQUAL(1.0, _engine->lowOscillators[0]->getMagnitude());
     _engine->process(sampleRate, 0.025f); // 1/4 cycle
-    float expected = 1.f * 0.1 * 5; // osc.getIm * decay(0.025) * level
+    float expected = 1.f * 0.316227766017 * 5; // osc.getIm * decay(0.025) * level
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 
@@ -125,11 +125,11 @@ TEST(KickTestSimple, RetriggerTest)
     _engine->process(sampleRate, 0);
     _harness->setInput(Kick::TRIG_INPUT, 0.0);
     _engine->process(sampleRate, 0.025f); // 1/4 cycle
-    float expected = 1.f * 0.1 * 5; // osc.getIm * decay(0.025) * level
+    float expected = 1.f * 0.316227766017 * 5; // osc.getIm * decay(0.025) * level
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
     _harness->setInput(Kick::TRIG_INPUT, 1.0);
     _engine->process(sampleRate, 0.025f);
-    expected = 1.f * 0.1 * 5;
+    expected = 1.f * 0.316227766017 * 5;
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 

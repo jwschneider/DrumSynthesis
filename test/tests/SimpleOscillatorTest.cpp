@@ -1,5 +1,5 @@
 #include "CppUTest/TestHarness.h"
-#include "../../src/SimpleOscillator.hpp"
+#include "../../src/common/SimpleOscillator.hpp"
 
 #include <cmath>
 #include <iostream>

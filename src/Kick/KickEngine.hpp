@@ -1,8 +1,8 @@
 #pragma once
-#include "../ModuleEngine.hpp"
+#include "../common/ModuleEngine.hpp"
 #include "KickControls.hpp"
-#include "../FMOscillator.hpp"
-#include "../DecayEnvelope.hpp"
+#include "../common/FMOscillator.hpp"
+#include "../common/LinearDecayEnvelope.hpp"
 #include <dsp/digital.hpp>
 
 namespace kick{

@@ -1,5 +1,5 @@
 #pragma once
-#include "../ModuleControls.hpp"
+#include "../common/ModuleControls.hpp"
 
 namespace kick {
 class KickControls : public ModuleControls {
