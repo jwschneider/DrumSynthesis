@@ -107,3 +107,38 @@ float KickControls::getMidLevel()
     float ret = 5.f * (this->getInput(Kick::MID_LEVEL_INPUT)*(M_SQRT2/10.f) + this->getParam(Kick::MID_LEVEL_PARAM));
     return clamp(ret, 0.f, 5 * M_SQRT2);
 }
+float KickControls::getHeadTone()
+{
+    float paramVoltage = this->getParam(Kick::HEAD_TONE_PARAM);
+    float inputVoltage = this->getInput(Kick::HEAD_TONE_INPUT) / 5.f;
+    return FREQ_A4 * std::pow(2, paramVoltage + inputVoltage);
+}
+float KickControls::getHeadCharacter()
+{
+    float paramVoltage = this->getParam(Kick::HEAD_CHARACTER_PARAM);
+    float inputVoltage = this->getInput(Kick::HEAD_CHARACTER_INPUT) / 5.f;
+    return FREQ_A4 * std::pow(2, paramVoltage + inputVoltage);
+}
+float KickControls::getHeadLP()
+{
+    float paramVoltage = this->getParam(Kick::HEAD_LP_PARAM);
+    float inputVoltage = this->getInput(Kick::HEAD_LP_INPUT);
+    return FREQ_C4 * std::pow(2, paramVoltage + inputVoltage);
+}
+float KickControls::getHeadHP()
+{
+    float paramVoltage = this->getParam(Kick::HEAD_HP_PARAM);
+    float inputVoltage = this->getInput(Kick::HEAD_HP_INPUT);
+    return FREQ_C4 * std::pow(2, paramVoltage + inputVoltage);
+}
+float KickControls::getHeadDecay()
+{
+    float inputVoltage = this->getInput(Kick::HEAD_DECAY_INPUT) * 2.f / 5.f; // [-5, 5] -> [-2, 2]
+    float paramVoltage = this ->getParam(Kick::HEAD_DECAY_PARAM);
+    return std::pow(10, inputVoltage + paramVoltage);
+}
+float KickControls::getHeadLevel()
+{
+    float ret = 5.f * (this->getInput(Kick::HEAD_LEVEL_INPUT)*(M_SQRT2/10.f) + this->getParam(Kick::HEAD_LEVEL_PARAM));
+    return clamp(ret, 0.f, 5 * M_SQRT2);
+}

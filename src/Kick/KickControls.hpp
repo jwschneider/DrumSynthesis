@@ -47,5 +47,17 @@ class KickControls : public ModuleControls {
     float getMidDecay();
     // Gets amplitude in [0, 5*sqrt(2)]
     float getMidLevel();
+    // Head Tone FQ in [440, 5280] Hz
+    float getHeadTone();
+    // Head Character FQ in [440, 5280] Hz
+    float getHeadCharacter();
+    // Head LP Frequency
+    float getHeadLP();
+    // Head HP Frequency
+    float getHeadHP();
+    // D = 10^(Vi + Vp) where Vp [-2, 0] and Vi [-2, 2]
+    float getHeadDecay();
+    // Gets amplitude in [0, 5*sqrt(2)]
+    float getHeadLevel();
 };
 } //namespace Kick

@@ -40,6 +40,7 @@ void KickEngine::init(float sampleRate)
 {
     initLows(sampleRate);
     initMids(sampleRate);
+    initHead(sampleRate);
 }
 
 void KickEngine::initLows(float sampleRate)
@@ -74,9 +75,22 @@ void KickEngine::initMids(float sampleRate)
     midOscillator = FMOscillator(tone, character, midModIndex);
     float decay = controls->getMidDecay();
     midDecay.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
-    midModDecay.init(0.f, decay * 2.f / 3.f, 0.25, 0.f, sampleRate);
+    midModDecay.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
     midLPF.setCutoff(controls->getMidLP());
     midHPF.setCutoff(controls->getMidHP());
+}
+
+void KickEngine::initHead(float sampleRate)
+{
+    float tone = controls->getHeadTone();
+    float character = controls->getHeadCharacter();
+    headModIndex = 8.f;
+    headOscillator = FMOscillator(tone, character, headModIndex);
+    float decay = controls->getHeadDecay();
+    headDecay.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
+    headModDecay.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
+    headLPF.setCutoff(controls->getHeadLP());
+    headHPF.setCutoff(controls->getHeadHP());
 }
 
 // Cleans the slate
@@ -88,6 +102,7 @@ void KickEngine::reset()
         lowOscillators.pop_back();
     }
     midOscillator.reset();
+    headOscillator.reset();
 }
 
 float KickEngine::processLows(float sampleRate, float sampleTime)
@@ -106,12 +121,8 @@ float KickEngine::processLows(float sampleRate, float sampleTime)
 
 float KickEngine::processMids(float sampleRate, float sampleTime)
 {
-    // midModulator.setFrequency(controls->getMidCharacter());
-    // midCarrier.setFrequency(rack::dsp::FREQ_A4 * (controls->getMidToneVoltage() + midOscillators[1]->getImaginary()));
-    // midModulator.process(sampleRate, sampleTime);
-    // midCarrier.process(sampleRate, sampleTime);
     midModDecay.process(sampleRate, sampleTime);
-    //midOscillator.setModIndex(midOscillator.getModIndex() * midModDecay.getValue());
+    midOscillator.setModIndex(midModIndex * midModDecay.getValue());
     midOscillator.process(sampleRate, sampleTime);
     midDecay.process(sampleRate, sampleTime);
     midLPF.process(midOscillator.getImaginary(), sampleTime);
@@ -119,9 +130,15 @@ float KickEngine::processMids(float sampleRate, float sampleTime)
     return midHPF.highpass() * midDecay.getValue() * controls->getMidLevel() * 5.f; 
 }
 
-float KickEngine::processHighs(float sampleRate, float sampleTime)
+float KickEngine::processHead(float sampleRate, float sampleTime)
 {
-    return 0;
+    headModDecay.process(sampleRate, sampleTime);
+    headOscillator.setModIndex(headModIndex * headModDecay.getValue());
+    headOscillator.process(sampleRate, sampleTime);
+    headDecay.process(sampleRate, sampleTime);
+    headLPF.process(headOscillator.getImaginary(), sampleTime);
+    headHPF.process(headLPF.lowpass(), sampleTime);
+    return headHPF.highpass() * headDecay.getValue() * controls->getHeadLevel() * 5.f; 
 }
 
 void KickEngine::process(float sampleRate, float sampleTime) {
@@ -130,7 +147,7 @@ void KickEngine::process(float sampleRate, float sampleTime) {
         float out = 0;
         out += processLows(sampleRate, sampleTime);
         out += processMids(sampleRate, sampleTime);
-        out += processHighs(sampleRate, sampleTime);
+        out += processHead(sampleRate, sampleTime);
         controls->setOutputVoltage(out);
     }
 }

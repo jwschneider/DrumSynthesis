@@ -36,15 +36,22 @@ namespace kick{
         LadderFilter<float> midLPF;
         LadderFilter<float> midHPF;
 
+        FMOscillator headOscillator;
+        float headModIndex;
+        EnvelopeGenerator headModDecay;
+        EnvelopeGenerator headDecay;
+        LadderFilter<float> headLPF;
+        LadderFilter<float> headHPF;
+
         private:
         float phase = 0.f;
         float processLows(float sampleRate, float sampleTime);
         float processMids(float sampleRate, float sampleTime);
-        float processHighs(float sampleRate, float sampleTime);
+        float processHead(float sampleRate, float sampleTime);
         void init(float sampleRate);
         void initLows(float sampleRate);
         void initMids(float sampleRate);
-        void initHighs(float sampleRate);
+        void initHead(float sampleRate);
         void reset();
         void updateState(float sampleRate, float sampleTime);
         bool _ON;

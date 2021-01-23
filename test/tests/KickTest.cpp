@@ -112,24 +112,24 @@ TEST(KickTestSimple, TestOne)
     CHECK_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency());
     CHECK_EQUAL(1.0, _engine->lowOscillators[0]->getMagnitude());
     _engine->process(sampleRate, 0.025f); // 1/4 cycle
-    float expected = 1.f * 0.316227766017 * 5; // osc.getIm * decay(0.025) * level
+    float expected = 1.f * 0.1f * 4 * 5; // osc.getIm * decay(0.025) * makeup gain * level
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 
 TEST(KickTestSimple, RetriggerTest)
 {
     float sampleRate = 44100.f;
-    float tolerance = 0.001;
+    float tolerance = 0.01;
     _engine->process(sampleRate, 0); // trigger needs input to start at 0
     _harness->setInput(Kick::TRIG_INPUT, 1.0);
     _engine->process(sampleRate, 0);
     _harness->setInput(Kick::TRIG_INPUT, 0.0);
     _engine->process(sampleRate, 0.025f); // 1/4 cycle
-    float expected = 1.f * 0.316227766017 * 5; // osc.getIm * decay(0.025) * level
+    float expected = 1.f * 0.1f * 4 * 5; // osc.getIm * decay(0.025) * makeup gain * level
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
     _harness->setInput(Kick::TRIG_INPUT, 1.0);
     _engine->process(sampleRate, 0.025f);
-    expected = 1.f * 0.316227766017 * 5;
+    expected = 1.f * 0.1f * 4 * 5;
     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
 }
 
@@ -209,7 +209,7 @@ TEST_GROUP(KickTestDefault)
     }
 };
 
-TEST(KickTestDefault, TestOne)
+TEST(KickTestDefault, BoundedOutputVoltage)
 {
     float sampleRate = 44100.f;
     float secondsPerSample = 1.f / sampleRate;
@@ -221,11 +221,11 @@ TEST(KickTestDefault, TestOne)
     {
         _engine->process(sampleRate, secondsPerSample);
         float output = _harness->getOutput(Kick::OUTPUT_OUTPUT);
-        CHECK_TEXT((output <= 5.f) && (output >= -5.f), "Output voltage is out of bounds [-5, 5]");
+        CHECK_TEXT((output <= 10.f) && (output >= -10.f), "Output voltage is out of bounds [-10, 10]");
     }
 }
 
-TEST_GROUP(AntiClickTest)
+TEST_GROUP(MidTest)
 {
         KickEngine *_engine;
     TestHarness *_harness;  
@@ -255,7 +255,7 @@ TEST_GROUP(AntiClickTest)
     }
 };
 
-TEST(AntiClickTest, TestOne)
+TEST(MidTest, AntiClickTest)
 {
     float sampleRate = 44100.f;
     float secondsPerSample = 1.f / sampleRate;
@@ -279,4 +279,20 @@ TEST(AntiClickTest, TestOne)
         CHECK_TEXT(abs(currentValue - _harness->getOutput(Kick::OUTPUT_OUTPUT)) < tolerance, "Discontinuity between samples > 0.1V second trigger");
         currentValue = _harness->getOutput(Kick::OUTPUT_OUTPUT);
     }
+}
+
+TEST(MidTest, ModIndexTest)
+{
+    float sampleRate = 44100.f;
+    float tolerance = 0.01;
+    _harness->setInput(Kick::TRIG_INPUT, 0.f);
+    _engine->process(sampleRate, 0); // trigger needs input to start at 0
+    _harness->setInput(Kick::TRIG_INPUT, 1.0);
+    _engine->process(sampleRate, 0);
+    CHECK_EQUAL(440.f, _engine->midOscillator.getModFQ());
+    DOUBLES_EQUAL(0.08f, _engine->midOscillator.getModIndex(), tolerance);
+    _engine->process(sampleRate, 1.f/(4* _engine->midOscillator.getModFQ()));
+    DOUBLES_EQUAL(8.f, _engine->midOscillator.getModIndex(), tolerance);
+    _engine->process(sampleRate, 0.2f / 3.f);
+    DOUBLES_EQUAL(4.f, _engine->midOscillator.getModIndex(), tolerance);
 }

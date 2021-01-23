@@ -46,7 +46,7 @@ public:
     }
     void process(float sampleRate, float sampleTime)
     {
-        for (int i = 0; i < std::floor(sampleRate * sampleTime); i++)
+        for (float i = 0; i < sampleTime; i+= 1.f/sampleRate)
         {
             nextSample();
         }
