@@ -26,6 +26,16 @@
       "name": "MyModule",
       "description": "",
       "tags": []
+    },
+    {
+      "slug": "ClockAdvance",
+      "name": "Clock Advance",
+      "description": "When given a clock signal, outputs a trigger a customizeable duration prior to the next pulse",
+      "tags": [
+        "Clock",
+        "Delay",
+        "Trigger"
+      ]
     }
   ]
 }
