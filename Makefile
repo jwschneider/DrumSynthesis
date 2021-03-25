@@ -14,6 +14,7 @@ LDFLAGS +=
 SOURCES += $(wildcard src/*.cpp)
 SOURCES += $(wildcard src/MyModule/*.cpp)
 SOURCES += $(wildcard src/Kick/*.cpp)
+SOURCES += $(wildcard src/ClockAdvance/*.cpp)
 
 # Add files to the ZIP package when running `make dist`
 # The compiled plugin and "plugin.json" are automatically added.

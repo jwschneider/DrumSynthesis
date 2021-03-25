@@ -9,7 +9,7 @@ struct SnapKnobSmallNonDirectional : SVGKnob {
     SnapKnobSmallNonDirectional() {
         minAngle = std::numeric_limits<float>::min();
         maxAngle = std::numeric_limits<float>::max();
-        snap = true;
+        //snap = true;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallNonDirectional.svg")));
     }
 };

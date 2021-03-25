@@ -8,9 +8,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="3.576mm"
-   height="3.5209999mm"
-   viewBox="0 0 3.5759999 3.5209999"
+   width="5.3699999mm"
+   height="5.2880001mm"
+   viewBox="0 0 5.3699998 5.2880001"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
@@ -506,7 +506,7 @@
      style="display:inline">
     <g
        id="g3401"
-       transform="rotate(-90,-10.619824,18.060597)">
+       transform="matrix(0,-1.5016812,1.5016812,0,-43.068856,11.17396)">
       <path
          style="fill:none;fill-opacity:1;stroke:#232323;stroke-width:0.25;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0.0377953;stroke-opacity:1"
          id="path3392"
