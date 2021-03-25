@@ -12,6 +12,8 @@ class ClockAdvanceControls : public ModuleControls {
     {
 
     }
-    
+
+    // Gets the value of the CLK Input port
+    float getClock();
 };
 }

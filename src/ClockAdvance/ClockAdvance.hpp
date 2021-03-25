@@ -9,8 +9,8 @@ namespace clockAdvance {
         public:
             ClockAdvance();
             enum ParamIds {
-                BEATSNUMERATOR_PARAM,
-                BEATSDENOMINATOR_PARAM,
+                NOTESNUMERATOR_PARAM,
+                NOTESDENOMINATOR_PARAM,
                 SWITCH_PARAM,
                 MS_PARAM,
                 NUM_PARAMS
@@ -27,8 +27,6 @@ namespace clockAdvance {
                 NUM_LIGHTS
             };
             void process(const ProcessArgs& args) override;
-
-        private:
             ClockAdvanceEngine *engine;
     };
 

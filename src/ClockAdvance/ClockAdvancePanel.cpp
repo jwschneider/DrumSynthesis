@@ -10,7 +10,7 @@ extern Plugin* plugininstance;
 
 class IntegerDisplayWidget : public TransparentWidget {
     public:
-    std::string *value = new std::string("---");
+    std::string *value = NULL;
     std::shared_ptr<Font> font;
     IntegerDisplayWidget() {
         font = APP->window->loadFont(asset::plugin(pluginInstance, "res/clacon.ttf"));
@@ -39,8 +39,8 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addParam(createParamCentered<SnapKnobSmallNonDirectional>(mm2px(Vec(7.136, 48.941)), module, ClockAdvance::BEATSNUMERATOR_PARAM));
-    addParam(createParamCentered<SnapKnobSmallNonDirectional>(mm2px(Vec(7.136, 59.429)), module, ClockAdvance::BEATSDENOMINATOR_PARAM));
+    addParam(createParamCentered<SnapKnobSmallNonDirectional>(mm2px(Vec(7.136, 48.941)), module, ClockAdvance::NOTESNUMERATOR_PARAM));
+    addParam(createParamCentered<SnapKnobSmallNonDirectional>(mm2px(Vec(7.136, 59.429)), module, ClockAdvance::NOTESDENOMINATOR_PARAM));
     addParam(createParam<DSSwitch>(mm2px(Vec(12.7, 68.792)), module, ClockAdvance::SWITCH_PARAM));
     addParam(createParamCentered<SnapKnobSmallNonDirectional>(mm2px(Vec(7.136, 85.956)), module, ClockAdvance::MS_PARAM));
 
@@ -51,7 +51,8 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     IntegerDisplayWidget *BPMDisplay = new IntegerDisplayWidget();
     BPMDisplay->box.pos = mm2px(Vec(15.24, 26.458));
     BPMDisplay->box.size = mm2px(Vec(11.43, 5.292));
-    //BPMDisplay->value = &placeholder;
+    if (module)
+        BPMDisplay->value = &module->engine->strBPM;
     addChild(BPMDisplay);
     // mm2px(Vec(11.43, 5.292))
     //addChild(createWidget<Widget>(mm2px(Vec(15.24, 26.458))));
@@ -59,6 +60,8 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     IntegerDisplayWidget *NotesNumDisplay = new IntegerDisplayWidget();
     NotesNumDisplay->box.pos = mm2px(Vec(15.24, 46.302));
     NotesNumDisplay->box.size = mm2px(Vec(11.43, 5.292));
+    if (module)
+        NotesNumDisplay->value = &module->engine->strNotesNum;
     addChild(NotesNumDisplay);
     // mm2px(Vec(11.43, 5.292))
     //addChild(createWidget<Widget>(mm2px(Vec(15.24, 46.302))));
@@ -66,6 +69,8 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     IntegerDisplayWidget *NotesDenomDisplay = new IntegerDisplayWidget();
     NotesDenomDisplay->box.pos = mm2px(Vec(15.24, 56.885));
     NotesDenomDisplay->box.size = mm2px(Vec(11.43, 5.292));
+    if (module)
+        NotesDenomDisplay->value = &module->engine->strNotesDenom;
     addChild(NotesDenomDisplay);
     // mm2px(Vec(11.43, 5.292))
     //addChild(createWidget<Widget>(mm2px(Vec(15.24, 56.885))));
@@ -73,6 +78,8 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     IntegerDisplayWidget *MSDisplay = new IntegerDisplayWidget();
     MSDisplay->box.pos = mm2px(Vec(15.24, 83.344));
     MSDisplay->box.size = mm2px(Vec(11.43, 5.292));
+    if (module)
+        MSDisplay->value = &module->engine->strMS;
     addChild(MSDisplay);
     // mm2px(Vec(11.43, 5.292))
     //addChild(createWidget<Widget>(mm2px(Vec(15.24, 83.344))));

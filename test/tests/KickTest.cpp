@@ -209,21 +209,21 @@ TEST_GROUP(KickTestDefault)
     }
 };
 
-TEST(KickTestDefault, BoundedOutputVoltage)
-{
-    float sampleRate = 44100.f;
-    float secondsPerSample = 1.f / sampleRate;
-    //float tolerance = 0.001;
-    _engine->process(sampleRate, 0); // trigger needs input to start at 0
-    _harness->setInput(Kick::TRIG_INPUT, 1.0);
-    _engine->process(sampleRate, 0);
-    for (float i = 0.f; i < 1.0; i += secondsPerSample)
-    {
-        _engine->process(sampleRate, secondsPerSample);
-        float output = _harness->getOutput(Kick::OUTPUT_OUTPUT);
-        CHECK_TEXT((output <= 10.f) && (output >= -10.f), "Output voltage is out of bounds [-10, 10]");
-    }
-}
+// TEST(KickTestDefault, BoundedOutputVoltage)
+// {
+//     float sampleRate = 44100.f;
+//     float secondsPerSample = 1.f / sampleRate;
+//     //float tolerance = 0.001;
+//     _engine->process(sampleRate, 0); // trigger needs input to start at 0
+//     _harness->setInput(Kick::TRIG_INPUT, 1.0);
+//     _engine->process(sampleRate, 0);
+//     for (float i = 0.f; i < 1.0; i += secondsPerSample)
+//     {
+//         _engine->process(sampleRate, secondsPerSample);
+//         float output = _harness->getOutput(Kick::OUTPUT_OUTPUT);
+//         CHECK_TEXT((output <= 10.f) && (output >= -10.f), "Output voltage is out of bounds [-10, 10]");
+//     }
+// }
 
 TEST_GROUP(MidTest)
 {

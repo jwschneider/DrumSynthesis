@@ -6,8 +6,8 @@ using namespace clockAdvance;
 
 ClockAdvance::ClockAdvance() {
 	config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-	configParam(BEATSNUMERATOR_PARAM, 0.f, 1.f, 0.f, "");
-	configParam(BEATSDENOMINATOR_PARAM, 0.f, 1.f, 0.f, "");
+	configParam(NOTESNUMERATOR_PARAM, 0.f, 128.f, 1.f, "");
+	configParam(NOTESDENOMINATOR_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(SWITCH_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(MS_PARAM, 0.f, 1.f, 0.f, "");
 	
