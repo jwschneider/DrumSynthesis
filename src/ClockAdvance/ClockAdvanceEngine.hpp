@@ -27,7 +27,7 @@ class BPMClock {
         }
         return 0.f;
     }
-    float getMSBetweenEdges() {
+    float getSecPerBeat() {
         if (goodBPM())
         {
             return timeBetweenEdges0;
@@ -58,8 +58,14 @@ namespace clockAdvance {
         std::string strMS = strInvalidState;
         private:
         void updateState(float sampleRate, float sampleTime);
+        void updateNotes();
+        void updateMS();
         BPMClock _clock;
-        float _msSinceRisingEdge = 0;
+        float _secSinceRisingEdge = 0;
         rack::dsp::SchmittTrigger _trigger;
+        float _delaySec = 0;
+        int _notesNum;
+        int _notesDenom;
+        float _advanceSec;
     };
 }
