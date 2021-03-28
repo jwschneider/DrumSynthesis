@@ -27,3 +27,8 @@ bool ClockAdvanceControls::msMode()
 {
     return (int) this->getParam(ClockAdvance::SWITCH_PARAM);
 }
+
+void ClockAdvanceControls::setTriggerOutput(float val)
+{
+    this->setOutput(ClockAdvance::TRIGGER_OUTPUT, val);
+}

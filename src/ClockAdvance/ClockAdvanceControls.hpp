@@ -23,5 +23,7 @@ class ClockAdvanceControls : public ModuleControls {
     float getMS();
     // 0 == fraction mode; 1 == MS mode
     bool msMode();
+    // Set Output 
+    void setTriggerOutput(float val);
 };
 }

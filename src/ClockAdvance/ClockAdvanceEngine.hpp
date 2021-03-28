@@ -64,7 +64,7 @@ namespace clockAdvance {
         BPMClock _clock;
         float _secSinceRisingEdge = 0;
         rack::dsp::SchmittTrigger _trigger;
-        float _delaySec = 0;
+        float _delaySec = std::numeric_limits<float>::max();
         int _notesNum;
         int _notesDenom;
         float _advanceSec;

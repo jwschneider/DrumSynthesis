@@ -50,6 +50,14 @@ void ClockAdvanceEngine::process(float sampleRate, float sampleTime) {
     updateState(sampleRate, sampleTime);
     updateNotes();
     updateMS();
+    if (_secSinceRisingEdge >= _delaySec && _secSinceRisingEdge <= _delaySec + (_advanceSec / 2.f))
+    {
+        controls->setTriggerOutput(10.f);
+    }
+    else
+    {
+        controls->setTriggerOutput(0.f);
+    }
     bool goodClk = _clock.goodBPM();
     if (goodClk)
     {
@@ -69,6 +77,7 @@ void ClockAdvanceEngine::process(float sampleRate, float sampleTime) {
     }
     else
     {
+        _delaySec = std::numeric_limits<float>::max();
         strBPM = strInvalidState;
         strMS = controls->msMode() ? std::to_string((int)(_advanceSec * 1000)) : strInvalidState;
         strNotesNum = !controls->msMode() ? std::to_string(_notesNum) : strInvalidState;
