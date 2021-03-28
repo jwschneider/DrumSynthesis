@@ -17,7 +17,9 @@ class ClockAdvanceControls : public ModuleControls {
     float getClock();
     //
     int getNotesNumerator();
+    // Must be >= 1
     int getNotesDenominator();
+    // Must be > 0
     float getMS();
     // 0 == fraction mode; 1 == MS mode
     bool msMode();

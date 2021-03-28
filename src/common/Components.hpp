@@ -7,12 +7,21 @@ using namespace rack::app;
 
 struct SnapKnobSmallNonDirectional : SVGKnob {
     SnapKnobSmallNonDirectional() {
-        minAngle = std::numeric_limits<float>::min();
-        maxAngle = std::numeric_limits<float>::max();
-        //snap = true;
+        minAngle = -2 * M_PI;
+        maxAngle = 2 * M_PI;
+        snap = true;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallNonDirectional.svg")));
     }
 };
+struct SnapKnobSmallDirectional : SVGKnob {
+    SnapKnobSmallDirectional() {
+        minAngle = -2 * M_PI;
+        maxAngle = 2 * M_PI;
+        snap = true;
+        setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallDirectional.svg")));
+    }
+};
+
 
 struct DSSwitch : SvgSwitch {
     DSSwitch() {

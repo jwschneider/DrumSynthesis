@@ -32,6 +32,7 @@ class BPMClock {
         {
             return timeBetweenEdges0;
         }
+        return std::numeric_limits<float>::max();
     }
     private:
     float timeBetweenEdges0 = 0;

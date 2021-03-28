@@ -3,6 +3,10 @@
 using namespace clockAdvance;
 
 float notesToSeconds(int num, int denom, int BPM){
+    if (BPM == 0)
+    {
+        return std::numeric_limits<float>::max();
+    }
     return (((float) num / (float) denom) * 4 * 60) / (float) BPM;
 }
 
@@ -55,18 +59,18 @@ void ClockAdvanceEngine::process(float sampleRate, float sampleTime) {
         }
         else
         {
-            _advanceSec = notesToSeconds(_notesNum, _notesDenom, _clock.getBPM());
+            _advanceSec = min(notesToSeconds(_notesNum, _notesDenom, _clock.getBPM()), 0.999f);
         }
         _delaySec = _clock.getSecPerBeat() - _advanceSec;
         strBPM = std::to_string(_clock.getBPM());
-        strMS = std::to_string(_advanceSec * 1000);
+        strMS = std::to_string((int)(_advanceSec * 1000));
         strNotesNum = std::to_string(_notesNum);
         strNotesDenom = std::to_string(_notesDenom);
     }
     else
     {
         strBPM = strInvalidState;
-        strMS = controls->msMode() ? std::to_string(_advanceSec * 1000) : strInvalidState;
+        strMS = controls->msMode() ? std::to_string((int)(_advanceSec * 1000)) : strInvalidState;
         strNotesNum = !controls->msMode() ? std::to_string(_notesNum) : strInvalidState;
         strNotesDenom = !controls->msMode() ? std::to_string(_notesDenom) : strInvalidState;
     }
