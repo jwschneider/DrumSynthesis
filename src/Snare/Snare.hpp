@@ -7,6 +7,8 @@
 namespace snare {
 class Snare : public Module {
     public:
+    
+    //std::string colors[] = {"white", "pink", "red", "violet", "blue", "grey"};
     enum ParamIds {
         BASEFQ_PARAM,
         BASEDECAY_PARAM,
@@ -59,7 +61,7 @@ class Snare : public Module {
     Snare();
 
     void process(const ProcessArgs& args) override;
-
+    std::string colors[6] = {"white", "pink", "red", "violet", "blue", "grey"};
     private:
         SnareEngine *engine;
 };

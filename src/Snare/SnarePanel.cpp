@@ -30,7 +30,7 @@ snare::SnarePanel::SnarePanel(Snare *module)
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(30.283, 54.392)), module, Snare::FMDEPTH_PARAM));
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(15.348, 67.423)), module, Snare::FMFEEDBACK_PARAM));
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(25.296, 67.423)), module, Snare::FMAMP_PARAM));
-    addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(10.387, 82.096)), module, Snare::NOISECOLOR_PARAM));
+    addParam(createParamCentered<SnapKnobSmallDirectional>(mm2px(Vec(10.387, 82.096)), module, Snare::NOISECOLOR_PARAM));
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(20.335, 82.096)), module, Snare::RINGMODULATION_PARAM));
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(30.283, 82.096)), module, Snare::NOISEAMP_PARAM));
     addParam(createParamCentered<KnobSmallDirectional>(mm2px(Vec(10.387, 96.913)), module, Snare::VELOCITY_PARAM));

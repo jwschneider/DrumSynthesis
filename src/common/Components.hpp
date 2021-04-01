@@ -5,22 +5,32 @@
 
 using namespace rack::app;
 
-struct SnapKnobSmallNonDirectional : SVGKnob {
-    SnapKnobSmallNonDirectional() {
+struct SnapKnobSmallNonDirectionalBigPhase : SVGKnob {
+    SnapKnobSmallNonDirectionalBigPhase() {
         minAngle = -2 * M_PI;
         maxAngle = 2 * M_PI;
         snap = true;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallNonDirectional.svg")));
     }
 };
-struct SnapKnobSmallDirectional : SVGKnob {
-    SnapKnobSmallDirectional() {
+struct SnapKnobSmallDirectionalBigPhase : SVGKnob {
+    SnapKnobSmallDirectionalBigPhase() {
         minAngle = -2 * M_PI;
         maxAngle = 2 * M_PI;
         snap = true;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallDirectional.svg")));
     }
 };
+
+struct SnapKnobSmallDirectional : SVGKnob {
+    SnapKnobSmallDirectional() {
+        minAngle = -0.75 * M_PI;
+        maxAngle = 0.75 * M_PI;
+        snap = true;
+        setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallDirectional.svg")));
+    }
+};
+
 struct SnapKnobSmallerDirectional : SVGKnob {
     SnapKnobSmallerDirectional() {
         minAngle = -2 * M_PI;
@@ -32,16 +42,16 @@ struct SnapKnobSmallerDirectional : SVGKnob {
 
 struct KnobSmallDirectional : SVGKnob {
     KnobSmallDirectional() {
-        minAngle = -2 * M_PI;
-        maxAngle = 2 * M_PI;
+        minAngle = -0.75 * M_PI;
+        maxAngle = 0.75 * M_PI;
         snap = false;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallDirectional.svg")));
     }
 };
 struct KnobSmallerDirectional : SVGKnob {
     KnobSmallerDirectional() {
-        minAngle = -2 * M_PI;
-        maxAngle = 2 * M_PI;
+        minAngle = -0.75 * M_PI;
+        maxAngle = 0.75 * M_PI;
         snap = false;
         setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/KnobSmallerDirectional.svg")));
     }

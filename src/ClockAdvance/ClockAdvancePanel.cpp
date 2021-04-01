@@ -38,10 +38,10 @@ clockAdvance::ClockAdvancePanel::ClockAdvancePanel(ClockAdvance *module) {
     addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
     addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-    addParam(createParamCentered<SnapKnobSmallDirectional>(mm2px(Vec(7.136, 48.941)), module, ClockAdvance::NOTESNUMERATOR_PARAM));
-    addParam(createParamCentered<SnapKnobSmallDirectional>(mm2px(Vec(7.136, 59.429)), module, ClockAdvance::NOTESDENOMINATOR_PARAM));
+    addParam(createParamCentered<SnapKnobSmallDirectionalBigPhase>(mm2px(Vec(7.136, 48.941)), module, ClockAdvance::NOTESNUMERATOR_PARAM));
+    addParam(createParamCentered<SnapKnobSmallDirectionalBigPhase>(mm2px(Vec(7.136, 59.429)), module, ClockAdvance::NOTESDENOMINATOR_PARAM));
     addParam(createParam<DSSwitch>(mm2px(Vec(12.7, 68.792)), module, ClockAdvance::SWITCH_PARAM));
-    addParam(createParamCentered<SnapKnobSmallDirectional>(mm2px(Vec(7.136, 85.956)), module, ClockAdvance::MS_PARAM));
+    addParam(createParamCentered<SnapKnobSmallDirectionalBigPhase>(mm2px(Vec(7.136, 85.956)), module, ClockAdvance::MS_PARAM));
 
     addInput(createInputCentered<DSIPort>(mm2px(Vec(7.136, 29.837)), module, ClockAdvance::CLOCK_INPUT));
 
