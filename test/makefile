@@ -29,6 +29,7 @@ SRC_DIRS += $(PROJECT_HOME_DIR)/src
 SRC_DIRS += $(PROJECT_HOME_DIR)/src/MyModule
 SRC_DIRS += $(PROJECT_HOME_DIR)/src/Kick
 SRC_DIRS += $(PROJECT_HOME_DIR)/src/ClockAdvance
+SRC_DIRS += $(PROJECT_HOME_DIR)/src/Snare
 
 # --- TEST_SRC_FILES and TEST_SRC_DIRS ---
 # Test files are always included in the build.

@@ -34,6 +34,9 @@ Snare::Snare() {
 	configParam(NOTCH3_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(LPF_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(HPF_PARAM, 0.f, 1.f, 0.f, "");
+
+	SnareControls *controls = new SnareControls(&params, &outputs, &inputs, &lights);
+	engine = new SnareEngine(controls);
 }
 void Snare::process(const ProcessArgs& args) {
 	engine->process(args.sampleRate, args.sampleTime);
