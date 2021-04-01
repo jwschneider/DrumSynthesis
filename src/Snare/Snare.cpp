@@ -4,7 +4,7 @@ using namespace snare;
 
 Snare::Snare() {
 	config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-	configParam(BASEFQ_PARAM, 0.f, 1.f, 0.f, "");
+	configParam(BASEFQ_PARAM, -5.f, 5.f, 0.f, "Drum Base Frequency", "Hz", 2, dsp::FREQ_A4);
 	configParam(BASEDECAY_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(BASEAMP_PARAM, 0.f, 1.f, 0.f, "");
 	configParam(MOD0_PARAM, 0.f, 1.f, 0.f, "");
