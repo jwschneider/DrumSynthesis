@@ -285,9 +285,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="45.254834"
-     inkscape:cx="4.3739288"
-     inkscape:cy="23.395958"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="-240.9028"
+     inkscape:cy="163.97162"
      inkscape:document-units="mm"
      inkscape:current-layer="layer4"
      inkscape:document-rotation="0"
@@ -313,7 +313,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -535,83 +535,5 @@
          rx="0.075680889"
          ry="0.071644671" />
     </g>
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer3"
-     inkscape:label="components"
-     style="display:none">
-    <circle
-       style="fill:#00ff00;fill-opacity:1;stroke-width:0.416554"
-       id="circle964"
-       inkscape:label="BeatsNumerator"
-       cx="7.1363163"
-       cy="29.836767"
-       r="3.1241536" />
-    <circle
-       style="fill:#ff0000;fill-opacity:1;stroke-width:0.389166"
-       id="circle2960"
-       inkscape:label="BeatsNumerator"
-       cx="7.1363163"
-       cy="48.940525"
-       r="2.9187412" />
-    <rect
-       style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1"
-       id="rect3046"
-       width="5.0800004"
-       height="7.9375"
-       x="12.700001"
-       y="68.791664"
-       rx="0.25399998"
-       ry="0.26458305" />
-    <circle
-       style="fill:#0000ff;fill-opacity:1;stroke-width:0.4233"
-       id="circle3054"
-       inkscape:label="BeatsNumerator"
-       cx="20.955"
-       cy="118.43126"
-       r="3.1747484" />
-    <circle
-       style="fill:#ff0000;fill-opacity:1;stroke-width:0.389166"
-       id="circle898"
-       inkscape:label="BeatsNumerator"
-       cx="7.1363163"
-       cy="59.429363"
-       r="2.9187412" />
-    <circle
-       style="fill:#ff0000;fill-opacity:1;stroke-width:0.389166"
-       id="circle914"
-       inkscape:label="BeatsNumerator"
-       cx="7.1363163"
-       cy="85.955864"
-       r="2.9187412" />
-    <rect
-       style="fill:#ffff00;fill-opacity:1;stroke-width:0.280633"
-       id="rect929"
-       width="11.429999"
-       height="5.2916656"
-       x="15.240001"
-       y="26.458334" />
-    <rect
-       style="fill:#ffff00;fill-opacity:1;stroke-width:0.280633"
-       id="rect931"
-       width="11.429999"
-       height="5.2916656"
-       x="15.240001"
-       y="46.302082" />
-    <rect
-       style="fill:#ffff00;fill-opacity:1;stroke-width:0.280633"
-       id="rect933"
-       width="11.429999"
-       height="5.2916656"
-       x="15.240001"
-       y="56.885418" />
-    <rect
-       style="fill:#ffff00;fill-opacity:1;stroke-width:0.280633"
-       id="rect935"
-       width="11.429999"
-       height="5.2916656"
-       x="15.240001"
-       y="83.34375" />
   </g>
 </svg>

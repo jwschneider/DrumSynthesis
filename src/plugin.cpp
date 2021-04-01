@@ -2,6 +2,7 @@
 #include "MyModule/MyModule.hpp"
 #include "Kick/Kick.hpp"
 #include "ClockAdvance/ClockAdvance.hpp"
+#include "Snare/Snare.hpp"
 
 
 Plugin* pluginInstance;
@@ -15,6 +16,7 @@ void init(Plugin* p) {
 	p->addModel(createModel<mymodule::MyModule, mymodule::MyModulePanel>("MyModule"));
 	p->addModel(createModel<kick::Kick, kick::KickPanel>("Kick"));
 	p->addModel(createModel<clockAdvance::ClockAdvance, clockAdvance::ClockAdvancePanel>("ClockAdvance"));
+	p->addModel(createModel<snare::Snare, snare::SnarePanel>("Snare"));
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
 }

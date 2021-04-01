@@ -36,6 +36,15 @@
         "Delay",
         "Trigger"
       ]
+    },
+    {
+      "slug": "Snare",
+      "name": "Snare",
+      "description": "Snare drum synthesizer",
+      "tags": [
+        "Drum",
+        "Snare"
+      ]
     }
   ]
 }

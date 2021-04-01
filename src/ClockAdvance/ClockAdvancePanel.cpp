@@ -6,7 +6,6 @@
 using namespace rack;
 using namespace clockAdvance;
 
-extern Plugin* plugininstance;
 
 class IntegerDisplayWidget : public TransparentWidget {
     public:
