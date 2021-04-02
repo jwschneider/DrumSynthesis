@@ -3,6 +3,67 @@
 
 using namespace snare;
 
+class ModMatrixWidget : public TransparentWidget {
+    public:
+    ModMatrixWidget()
+    {
+        font = APP->window->loadFont(asset::plugin(pluginInstance, "res/clacon.ttf"));
+    }
+    void setEngine(SnareEngine *engine)
+    {
+        this->engine = engine;
+    }
+    void draw(const DrawArgs &args) override
+    {
+        if (!engine)
+        {
+            return;
+        }
+        nvgFontSize(args.vg, 20);
+        nvgFontFaceId(args.vg, font->handle);
+        std::string to_display = "x";
+        NVGcolor textcolor = nvgRGB(0x16, 0xb2, 0x16);
+        nvgFillColor(args.vg, textcolor);
+        for (int i = 0; i < Snare::NUM_PARAMS; i++)
+        {
+            if (engine->_modMatrix[i][4] > 0)
+                for (int j = 0; j < 4; j++)
+                {
+                    if (engine->_modMatrix[i][j])
+                    {
+                        Vec textPos = Vec(i * box.size.x / 4, j * box.size.y / Snare::NUM_PARAMS);
+                        nvgText(args.vg, textPos.x, textPos.y, to_display.c_str(), NULL);
+                    }
+                }
+        }
+    }
+    void onButton(const event::Button& e) override
+    {
+        if (e.button == GLFW_MOUSE_BUTTON_LEFT)
+        {
+            // calculate which i, j in panel, but set the bits in the array in engine
+            int i = e.pos.x / 4;
+            int j = e.pos.y / Snare::NUM_PARAMS;
+            int val = engine->_modMatrix[i][j];
+            if (val)
+            {
+                engine->_modMatrix[i][4]--;
+                engine->_modMatrix[i][j] = 0;
+            }
+            else
+            {
+                engine->_modMatrix[i][4]++;
+                engine->_modMatrix[i][j] = 1;
+            }
+            e.consume(this);
+        }
+    }
+    private:
+    int count = 0;
+    std::shared_ptr<Font> font;
+    SnareEngine *engine;
+};
+
 snare::SnarePanel::SnarePanel(Snare *module)
 {    	
     setModule(module);
@@ -53,5 +114,13 @@ snare::SnarePanel::SnarePanel(Snare *module)
     addOutput(createOutputCentered<DSOPort>(mm2px(Vec(52.879, 122.842)), module, Snare::OUTPUT_OUTPUT));
 
     // mm2px(Vec(12.446, 78.846))
-    addChild(createWidget<Widget>(mm2px(Vec(46.741, 18.256))));
+    // addChild(createWidget<Widget>(mm2px(Vec(46.741, 18.256))));
+    ModMatrixWidget *MatrixDisplay = new ModMatrixWidget();
+    MatrixDisplay->box.pos = mm2px(Vec(46.741, 18.256));
+    MatrixDisplay->box.size = mm2px(Vec(12.446, 78.846));
+    if (module)
+        MatrixDisplay->setEngine(module->engine);
+    addChild(MatrixDisplay);
+
+
 }

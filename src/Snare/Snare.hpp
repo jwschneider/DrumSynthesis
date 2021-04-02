@@ -61,9 +61,8 @@ class Snare : public Module {
     Snare();
 
     void process(const ProcessArgs& args) override;
-    std::string colors[6] = {"white", "pink", "red", "violet", "blue", "grey"};
-    private:
-        SnareEngine *engine;
+    SnareEngine *engine;
+    private:    
 };
 
 class SnarePanel : public ModuleWidget
