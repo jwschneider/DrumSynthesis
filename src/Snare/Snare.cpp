@@ -36,7 +36,7 @@ Snare::Snare() {
 	configParam(HPF_PARAM, -5.f, 5.f, -5.f, "HPF Cutoff Frequency", "Hz", 2, dsp::FREQ_A4);
 
 	SnareControls *controls = new SnareControls(&params, &outputs, &inputs, &lights);
-	engine = new SnareEngine(controls, NUM_PARAMS);
+	engine = new SnareEngine(controls);
 }
 void Snare::process(const ProcessArgs& args) {
 	engine->process(args.sampleRate, args.sampleTime);

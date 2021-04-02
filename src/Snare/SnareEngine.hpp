@@ -6,25 +6,13 @@ namespace snare {
     class SnareEngine : ModuleEngine {
         SnareControls *controls;
         public:
-        SnareEngine(SnareControls *controls, int numParams)
-        {
-            this->controls = controls;
-            _modMatrix = new int*[numParams];
-            for (int i = 0; i < numParams; i++)
-            {
-                _modMatrix[i] = new int[5] {0};
-            }
-        }
-        ~SnareEngine()
-        {
-            delete controls;
-            // for (int i = 0; i < sizeof(_modMatrix); i++)
-            // {
-            //     delete _modMatrix[i];
-            // }   
-            delete[] _modMatrix;
-        }
+        SnareEngine(SnareControls *controls);
+        ~SnareEngine();
         void process(float sampleRate, float sampleTime) override;
+        int getModMatrixEntry(int i, int j);
+        void toggleModMatrixEntry(int i, int j);
+        int getModMatrixRowCount(int i);
+        private:
         int **_modMatrix;       
     };
 }

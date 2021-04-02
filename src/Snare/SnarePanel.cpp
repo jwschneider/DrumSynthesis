@@ -5,6 +5,8 @@ using namespace snare;
 
 class ModMatrixWidget : public TransparentWidget {
     public:
+    const char  *to_display = "x";
+    float to_display_bounds[4];
     ModMatrixWidget()
     {
         font = APP->window->loadFont(asset::plugin(pluginInstance, "res/clacon.ttf"));
@@ -12,6 +14,17 @@ class ModMatrixWidget : public TransparentWidget {
     void setEngine(SnareEngine *engine)
     {
         this->engine = engine;
+    }
+
+    float i_to_x(int i, float characterWidth, float boxWidth)
+    {
+        float space = boxWidth - characterWidth * Snare::NUM_MODULATORS;
+        float spacePerLetter = space / (Snare::NUM_MODULATORS + 1);
+        return (i+1)*spacePerLetter + i*characterWidth;
+    }
+    float j_to_y(int j, float characterHeight, float boxHeight)
+    {
+        return 0;
     }
     void draw(const DrawArgs &args) override
     {
@@ -21,40 +34,41 @@ class ModMatrixWidget : public TransparentWidget {
         }
         nvgFontSize(args.vg, 20);
         nvgFontFaceId(args.vg, font->handle);
-        std::string to_display = "x";
         NVGcolor textcolor = nvgRGB(0x16, 0xb2, 0x16);
         nvgFillColor(args.vg, textcolor);
+        nvgTextBounds(args.vg, 0, 0, to_display, NULL, to_display_bounds);
+        // float xExtraSpace = box.size.x - (to_display_bounds[2] - to_display_bounds[0]) * Snare::NUM_MODULATORS;
+        // float yExtraSpace = box.size.y - (to_display_bounds[3] - to_display_bounds[1]) * Snare::NUM_PARAMS;
+        // float xSpaceBetweenLetters = xExtraSpace / (Snare::NUM_MODULATORS + 1);
+        // float ySpaceBetweenLetters = yExtraSpace / (Snare::NUM_PARAMS + 1);
+        float xWidth = to_display_bounds[2] - to_display_bounds[0];
+        float xHeight = to_display_bounds[3] - to_display_bounds[1];
         for (int i = 0; i < Snare::NUM_PARAMS; i++)
         {
-            if (engine->_modMatrix[i][4] > 0)
-                for (int j = 0; j < 4; j++)
+            if (engine->getModMatrixRowCount(i))
+                for (uint32_t j = 0; j < Snare::NUM_MODULATORS; j++)
                 {
-                    if (engine->_modMatrix[i][j])
+                    if (engine->getModMatrixEntry(i, j))
                     {
-                        Vec textPos = Vec(i * box.size.x / 4, j * box.size.y / Snare::NUM_PARAMS);
-                        nvgText(args.vg, textPos.x, textPos.y, to_display.c_str(), NULL);
+                        // float xPos = (i * box.size.x / Snare::NUM_MODULATORS) + xSpaceBetweenLetters * (i + 1);
+                        // float yPos = ((j + 1) * box.size.y / Snare::NUM_PARAMS) + ySpaceBetweenLetters * (j + 1);
+                        float xPos = i_to_x(i, xWidth, box.size.x);
+                        float yPos = j_to_y(j, xHeight, box.size.y);
+                        Vec textPos = Vec(xPos, yPos);
+                        nvgText(args.vg, textPos.x, textPos.y, to_display, NULL);
                     }
                 }
         }
     }
     void onButton(const event::Button& e) override
     {
-        if (e.button == GLFW_MOUSE_BUTTON_LEFT)
+        if (e.button == GLFW_MOUSE_BUTTON_LEFT && e.action == GLFW_RELEASE)
         {
             // calculate which i, j in panel, but set the bits in the array in engine
-            int i = e.pos.x / 4;
-            int j = e.pos.y / Snare::NUM_PARAMS;
-            int val = engine->_modMatrix[i][j];
-            if (val)
-            {
-                engine->_modMatrix[i][4]--;
-                engine->_modMatrix[i][j] = 0;
-            }
-            else
-            {
-                engine->_modMatrix[i][4]++;
-                engine->_modMatrix[i][j] = 1;
-            }
+            int i = e.pos.x * Snare::NUM_MODULATORS / box.size.x;
+            int j = e.pos.y * Snare::NUM_PARAMS / box.size.y;
+            engine->toggleModMatrixEntry(i, j);
+            DEBUG("l mouse click at (%f, %f) becomes mod matrix entry of (%d, %d)", e.pos.x, e.pos.y, i, j);
             e.consume(this);
         }
     }

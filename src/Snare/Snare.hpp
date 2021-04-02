@@ -9,6 +9,8 @@ class Snare : public Module {
     public:
     
     //std::string colors[] = {"white", "pink", "red", "violet", "blue", "grey"};
+
+    const static uint32_t NUM_MODULATORS = 4;
     enum ParamIds {
         BASEFQ_PARAM,
         BASEDECAY_PARAM,
