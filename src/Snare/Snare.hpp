@@ -10,7 +10,6 @@ class Snare : public Module {
     
     //std::string colors[] = {"white", "pink", "red", "violet", "blue", "grey"};
 
-    const static uint32_t NUM_MODULATORS = 4;
     enum ParamIds {
         BASEFQ_PARAM,
         BASEDECAY_PARAM,
@@ -64,6 +63,10 @@ class Snare : public Module {
 
     void process(const ProcessArgs& args) override;
     SnareEngine *engine;
+
+    const static uint32_t MOD_MATRIX_COLUMNS = 4;
+    const static uint32_t MOD_MATRIX_ROWS = 25;
+
     private:    
 };
 

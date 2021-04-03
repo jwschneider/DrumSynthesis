@@ -1030,17 +1030,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="199.32655"
-     inkscape:cy="45.42096"
+     inkscape:cx="212.41112"
+     inkscape:cy="72.471613"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
      showgrid="true"
-     inkscape:window-width="1718"
-     inkscape:window-height="1368"
-     inkscape:window-x="1713"
-     inkscape:window-y="743"
-     inkscape:window-maximized="0">
+     inkscape:window-width="1440"
+     inkscape:window-height="2497"
+     inkscape:window-x="3432"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
        id="grid6770"
@@ -1056,7 +1056,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2794,6 +2794,14 @@
      id="layer2"
      inkscape:label="components"
      style="display:none">
+    <rect
+       style="display:inline;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.197991;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect931"
+       width="12.197172"
+       height="78.846306"
+       x="47.19083"
+       y="18.255423"
+       inkscape:label="Panel" />
     <circle
        style="display:inline;fill:#00ff00;fill-opacity:1;stroke-width:0.291827"
        id="circle964"
@@ -2825,14 +2833,6 @@
        cx="52.879421"
        cy="122.84199"
        r="1.8651277" />
-    <rect
-       style="display:inline;fill:#ffff00;fill-opacity:1;stroke-width:1.13039"
-       id="rect931"
-       width="12.446002"
-       height="78.845833"
-       x="46.740677"
-       y="18.25629"
-       inkscape:label="Panel" />
     <circle
        style="display:inline;fill:#00ff00;fill-opacity:1;stroke-width:0.291827"
        id="circle13180"

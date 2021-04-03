@@ -7,10 +7,10 @@ using namespace snare;
 SnareEngine::SnareEngine(SnareControls *controls)
 {
     this->controls = controls;
-    _modMatrix = new int*[Snare::NUM_PARAMS];
-    for (uint32_t i = 0; i < Snare::NUM_PARAMS; i++)
+    _modMatrix = new int*[Snare::MOD_MATRIX_ROWS];
+    for (uint32_t i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
     {
-        _modMatrix[i] = new int[Snare::NUM_MODULATORS + 1] {0};
+        _modMatrix[i] = new int[Snare::MOD_MATRIX_COLUMNS + 1] {0};
     }
 }
 SnareEngine::~SnareEngine()
@@ -31,18 +31,18 @@ void SnareEngine::toggleModMatrixEntry(int i, int j)
     int val = _modMatrix[i][j];
     if (val)
     {
-        _modMatrix[i][Snare::NUM_MODULATORS]--;
+        _modMatrix[i][Snare::MOD_MATRIX_COLUMNS]--;
         _modMatrix[i][j] = 0;
     }
     else
     {
-        _modMatrix[i][Snare::NUM_MODULATORS]++;
+        _modMatrix[i][Snare::MOD_MATRIX_COLUMNS]++;
         _modMatrix[i][j] = 1;
     }
 }
 int SnareEngine::getModMatrixRowCount(int i)
 {
-    return _modMatrix[i][Snare::NUM_MODULATORS];
+    return _modMatrix[i][Snare::MOD_MATRIX_COLUMNS];
 }
 void SnareEngine::process(float sampleRate, float sampleTime)
 {

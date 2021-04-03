@@ -13,7 +13,7 @@ TEST_GROUP(InitTests)
     {
         _harness = new TestHarness(Snare::NUM_PARAMS, Snare::NUM_OUTPUTS, Snare::NUM_INPUTS, Snare::NUM_LIGHTS);
         _controls = new SnareControls(&_harness->params, &_harness->outputs, &_harness->inputs, &_harness->lights);
-        _engine = new SnareEngine(_controls, Snare::NUM_PARAMS);
+        _engine = new SnareEngine(_controls);
     }
     void teardown()
     {
