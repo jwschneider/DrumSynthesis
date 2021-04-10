@@ -44,6 +44,36 @@ int SnareEngine::getModMatrixRowCount(int i)
 {
     return _modMatrix[i][Snare::MOD_MATRIX_COLUMNS];
 }
+
+json_t *SnareEngine::modMatrixToJson()
+{
+    json_t *modMatrix = json_array();
+    for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+    {
+        json_t *row = json_array();
+        for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS + 1; j++)
+        {
+            json_array_append_new(row, json_integer(_modMatrix[i][j]));
+        }
+        json_array_append(modMatrix, row);
+    }
+    return modMatrix;
+}
+void SnareEngine::modMatrixFromJson(json_t *modMatrix)
+{
+    for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+    {
+        json_t *row = json_array_get(modMatrix, i);
+        {
+            for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS + 1; j++)
+            {
+                json_t *entry = json_array_get(row, j);
+                _modMatrix[i][j] = json_integer_value(entry);
+            }
+        }
+    }
+}
+
 void SnareEngine::process(float sampleRate, float sampleTime)
 {
 

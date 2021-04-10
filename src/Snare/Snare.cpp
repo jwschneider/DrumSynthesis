@@ -42,4 +42,20 @@ void Snare::process(const ProcessArgs& args) {
 	engine->process(args.sampleRate, args.sampleTime);
 }
 
+json_t* Snare::dataToJson()
+{
+	json_t *rootJ = json_object();
+	json_object_set_new(rootJ, "modMatrix", engine->modMatrixToJson());
+	return rootJ;
+}
+
+void Snare::dataFromJson(json_t *rootJ)
+{
+	json_t *modMatrix = json_object_get(rootJ, "modMatrix");
+	if (modMatrix != NULL)
+		{
+			engine->modMatrixFromJson(modMatrix);
+		}
+}
+
 //Model* modelSnare = createModel<Snare, SnareWidget>("Snare");

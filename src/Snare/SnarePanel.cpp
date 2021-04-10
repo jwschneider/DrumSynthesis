@@ -42,10 +42,10 @@ class ModMatrixWidget : public TransparentWidget {
         nvgTextBounds(args.vg, 0, 0, to_display, NULL, to_display_bounds);
         float xWidth = to_display_bounds[2] - to_display_bounds[0];
         float xHeight = to_display_bounds[3] - to_display_bounds[1];
-        for (uint32_t i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+        for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
         {
             if (engine->getModMatrixRowCount(i))
-                for (uint32_t j = 0; j < Snare::MOD_MATRIX_COLUMNS; j++)
+                for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS; j++)
                 {
                     if (engine->getModMatrixEntry(i, j))
                     {
@@ -65,7 +65,7 @@ class ModMatrixWidget : public TransparentWidget {
             int j = e.pos.x * Snare::MOD_MATRIX_COLUMNS / box.size.x;
             int i = e.pos.y * Snare::MOD_MATRIX_ROWS / box.size.y;
             engine->toggleModMatrixEntry(i, j);
-            DEBUG("l mouse click at (%f, %f) becomes mod matrix entry of (%d, %d)", e.pos.y, e.pos.x, i, j);
+            //DEBUG("l mouse click at (%f, %f) becomes mod matrix entry of (%d, %d)", e.pos.y, e.pos.x, i, j);
             e.consume(this);
         }
     }

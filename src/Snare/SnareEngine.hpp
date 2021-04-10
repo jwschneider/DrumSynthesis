@@ -12,6 +12,8 @@ namespace snare {
         int getModMatrixEntry(int i, int j);
         void toggleModMatrixEntry(int i, int j);
         int getModMatrixRowCount(int i);
+        json_t *modMatrixToJson();
+        void modMatrixFromJson(json_t *modMatrix);
         private:
         int **_modMatrix;       
     };

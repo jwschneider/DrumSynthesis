@@ -64,8 +64,11 @@ class Snare : public Module {
     void process(const ProcessArgs& args) override;
     SnareEngine *engine;
 
-    const static uint32_t MOD_MATRIX_COLUMNS = 4;
-    const static uint32_t MOD_MATRIX_ROWS = 25;
+    const static int MOD_MATRIX_COLUMNS = 4;
+    const static int MOD_MATRIX_ROWS = 25;
+
+    json_t* dataToJson() override;
+    void dataFromJson(json_t *rootJ) override;
 
     private:    
 };
