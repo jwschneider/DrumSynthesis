@@ -15,6 +15,11 @@ namespace snare {
         json_t *modMatrixToJson();
         void modMatrixFromJson(json_t *modMatrix);
         private:
-        int **_modMatrix;       
+        void updateState(float sampleRate, float sampleTime);
+        void processLows(float sampleRate, float sampleTime);
+        int **_modMatrix;
+        bool _ON;
+        float _currentTime;
+        float _endTime;       
     };
 }

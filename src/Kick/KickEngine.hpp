@@ -44,7 +44,7 @@ namespace kick{
         LadderFilter<float> headHPF;
 
         private:
-        float phase = 0.f;
+        //float phase = 0.f;
         float processLows(float sampleRate, float sampleTime);
         float processMids(float sampleRate, float sampleTime);
         float processHead(float sampleRate, float sampleTime);
