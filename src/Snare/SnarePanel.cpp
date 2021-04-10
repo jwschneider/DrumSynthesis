@@ -11,9 +11,9 @@ class ModMatrixWidget : public TransparentWidget {
     {
         font = APP->window->loadFont(asset::plugin(pluginInstance, "res/clacon.ttf"));
     }
-    void setEngine(SnareEngine *engine)
+    void setControls(SnareControls *controls)
     {
-        this->engine = engine;
+        this->controls = controls;
     }
 
     float i_to_y(int i, float characterHeight, float boxHeight)
@@ -31,7 +31,7 @@ class ModMatrixWidget : public TransparentWidget {
     }
     void draw(const DrawArgs &args) override
     {
-        if (engine == NULL)
+        if (controls == NULL)
         {
             return;
         }
@@ -44,10 +44,10 @@ class ModMatrixWidget : public TransparentWidget {
         float xHeight = to_display_bounds[3] - to_display_bounds[1];
         for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
         {
-            if (engine->getModMatrixRowCount(i))
+            if (controls->getModMatrixRowCount(i))
                 for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS; j++)
                 {
-                    if (engine->getModMatrixEntry(i, j))
+                    if (controls->getModMatrixEntry(i, j))
                     {
                         float yPos = i_to_y(i, xHeight, box.size.y);
                         float xPos = j_to_x(j, xWidth, box.size.x);
@@ -64,14 +64,14 @@ class ModMatrixWidget : public TransparentWidget {
             // calculate which i, j in panel, but set the bits in the array in engine
             int j = e.pos.x * Snare::MOD_MATRIX_COLUMNS / box.size.x;
             int i = e.pos.y * Snare::MOD_MATRIX_ROWS / box.size.y;
-            engine->toggleModMatrixEntry(i, j);
+            controls->toggleModMatrixEntry(i, j);
             //DEBUG("l mouse click at (%f, %f) becomes mod matrix entry of (%d, %d)", e.pos.y, e.pos.x, i, j);
             e.consume(this);
         }
     }
     private:
     std::shared_ptr<Font> font;
-    SnareEngine *engine;
+    SnareControls *controls;
 };
 
 snare::SnarePanel::SnarePanel(Snare *module)
@@ -129,7 +129,7 @@ snare::SnarePanel::SnarePanel(Snare *module)
     MatrixDisplay->box.pos = mm2px(Vec(47.191, 18.255));
     MatrixDisplay->box.size = mm2px(Vec(12.197, 78.846));
     if (module)
-        MatrixDisplay->setEngine(module->engine);
+        MatrixDisplay->setControls(module->engine->controls);
     addChild(MatrixDisplay);
 
 
