@@ -1,10 +1,10 @@
 #pragma once
-#include "../common/ModuleControls.hpp"
+#include "../common/PercussionControls.hpp"
 
 namespace kick {
-class KickControls : public ModuleControls {
+class KickControls : public PercussionControls {
     public:
-    KickControls(vector<Param>* p, vector<Output>* o, vector<Input>* i, vector<Light>* l) : ModuleControls {p, o, i, l}
+    KickControls(vector<Param>* p, vector<Output>* o, vector<Input>* i, vector<Light>* l) : PercussionControls {p, o, i, l}
     {
 
     }
@@ -12,8 +12,12 @@ class KickControls : public ModuleControls {
     {
 
     }
-    void setOutputVoltage(float val);
-    
+    void setOutputVoltage(float val) override;
+    // Gets longest of the three decay elements in [0.01, 1]s
+    float getLongestDecay() override;
+    // Gets trigger
+    float getTrigger() override;  
+
     // Fundamental frequency in [10, 100] Hz
     // FQ = C_4 * 2^(Vp + Vi)
     float getFundamentalFQ();
@@ -29,10 +33,6 @@ class KickControls : public ModuleControls {
     // Gets low FQ decay time in [0.01, 1]s
     // D = 10^(Vi + Vp) where Vp [-2, 0] and Vi [-2, 2]
     float getLowDecay();
-    // Gets longest of the three decay elements in [0.01, 1]s
-    float getLongestDecay();
-    // Gets trigger
-    float getTrigger();
     // Mid Tone FQ in [440, 1760] Hz
     float getMidTone();
     // Mid Tone Voltage in [0, 2] V

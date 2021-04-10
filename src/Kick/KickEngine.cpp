@@ -1,4 +1,5 @@
 #include "KickEngine.hpp"
+#include "../common/PercussionEngine.hpp"
 
 using namespace kick;
 
@@ -12,143 +13,168 @@ float scaleFrequency(float freq, float fundamental, float spread, int partials, 
     else return 1.f;
 }
 
-// Manages _ON sets up and tears down state
-void KickEngine::updateState(float sampleRate, float sampleTime)
+class Low : public PercussionSection
 {
-    bool trig = trigger.process(controls->getTrigger());
-    if (trig)
+    public:
+    Low(KickControls *controls) 
     {
-        reset();
-        init(sampleRate);
-        _ON = true;
-        _currentTime = 0.f;
-        _endTime = controls->getLongestDecay();
+        this->controls = controls;
     }
-    else if (_ON)
-    {
-        _currentTime += sampleTime;
-        _ON = _currentTime < _endTime;
-    }
-    else
+    ~Low()
     {
         reset();
     }
-}
-
-// Assumes a clean slate
-void KickEngine::init(float sampleRate)
-{
-    initLows(sampleRate);
-    initMids(sampleRate);
-    initHead(sampleRate);
-}
-
-void KickEngine::initLows(float sampleRate)
-{
-    float fun = controls->getFundamentalFQ();
-    int partials = controls->getPartials();
-    float spread = controls->getFQSpread();
-    float bend = controls->getBend();
-    float totalMag = 0.f;
-    for (int i = 0; i < partials; i++)
+    void init(float sampleRate) override
     {
-        float frequency = fun + spread * i;
-        SimpleOscillator *osc = new SimpleOscillator(frequency);
-        float magnitude = scaleFrequency(frequency, fun, spread, partials, bend);
-        osc->setMagnitude(magnitude);
-        totalMag += magnitude;
-        lowOscillators.push_back(osc);
+        float fun = controls->getFundamentalFQ();
+        int partials = controls->getPartials();
+        float spread = controls->getFQSpread();
+        float bend = controls->getBend();
+        float totalMag = 0.f;
+        for (int i = 0; i < partials; i++)
+        {
+            float frequency = fun + spread * i;
+            SimpleOscillator *osc = new SimpleOscillator(frequency);
+            float magnitude = scaleFrequency(frequency, fun, spread, partials, bend);
+            osc->setMagnitude(magnitude);
+            totalMag += magnitude;
+            oscillators.push_back(osc);
+        }
+        for (vector<SimpleOscillator*>::iterator iter = oscillators.begin(); iter != oscillators.end(); ++iter)
+        {
+            (*iter)->setMagnitude((*iter)->getMagnitude() / (totalMag));
+        }
+        float decay = controls->getLowDecay();
+        decayEnvelope.init(1.f / (2*fun), decay, 0.f, 0.f, sampleRate);
     }
-    for (vector<SimpleOscillator*>::iterator iter = lowOscillators.begin(); iter != lowOscillators.end(); ++iter)
+    float process(float sampleRate, float sampleTime) override
     {
-        (*iter)->setMagnitude((*iter)->getMagnitude() / (totalMag));
+        float acc = 0;
+        for (vector<SimpleOscillator*>::iterator iter = oscillators.begin(); iter != oscillators.end(); ++iter)
+        {
+            (*iter)->process(sampleRate, sampleTime);
+            acc += (*iter)->getImaginary();
+        }
+        decayEnvelope.process(sampleRate, sampleTime);
+        acc *= decayEnvelope.getValue() * 4.f; // makeup gain
+        acc *= controls->getLowLevel();
+        return acc;
     }
-    float decay = controls->getLowDecay();
-    lowDecay.init(1.f / (2*fun), decay, 0.f, 0.f, sampleRate);
-}
-
-void KickEngine::initMids(float sampleRate)
-{
-    float tone = controls->getMidTone();
-    float character = controls->getMidCharacter();
-    midModIndex = 8.f;
-    midOscillator = FMOscillator(tone, character, midModIndex);
-    float decay = controls->getMidDecay();
-    midDecay.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
-    midModDecay.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
-    midLPF.setCutoff(controls->getMidLP());
-    midHPF.setCutoff(controls->getMidHP());
-}
-
-void KickEngine::initHead(float sampleRate)
-{
-    float tone = controls->getHeadTone();
-    float character = controls->getHeadCharacter();
-    headModIndex = 8.f;
-    headOscillator = FMOscillator(tone, character, headModIndex);
-    float decay = controls->getHeadDecay();
-    headDecay.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
-    headModDecay.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
-    headLPF.setCutoff(controls->getHeadLP());
-    headHPF.setCutoff(controls->getHeadHP());
-}
-
-// Cleans the slate
-void KickEngine::reset()
-{
-    while (!lowOscillators.empty())
+    void reset() override
     {
-        delete lowOscillators.back();
-        lowOscillators.pop_back();
+        while (!oscillators.empty())
+        {
+            delete oscillators.back();
+            oscillators.pop_back();
+        }
     }
-    midOscillator.reset();
-    headOscillator.reset();
-}
+    private:
+    EnvelopeGenerator decayEnvelope;
+    vector<SimpleOscillator*> oscillators;
+    KickControls *controls;
+};
 
-float KickEngine::processLows(float sampleRate, float sampleTime)
+class Mid : public PercussionSection
 {
-    float acc = 0;
-    for (vector<SimpleOscillator*>::iterator iter = lowOscillators.begin(); iter != lowOscillators.end(); ++iter)
+    public:
+    Mid(KickControls *controls)
     {
-        (*iter)->process(sampleRate, sampleTime);
-        acc += (*iter)->getImaginary();
+        this->controls = controls;
     }
-    lowDecay.process(sampleRate, sampleTime);
-    acc *= lowDecay.getValue() * 4.f; // makeup gain
-    acc *= controls->getLowLevel();
-    return acc;
-}
+    ~Mid()
+    {
 
-float KickEngine::processMids(float sampleRate, float sampleTime)
-{
-    midModDecay.process(sampleRate, sampleTime);
-    midOscillator.setModIndex(midModIndex * midModDecay.getValue());
-    midOscillator.process(sampleRate, sampleTime);
-    midDecay.process(sampleRate, sampleTime);
-    midLPF.process(midOscillator.getImaginary(), sampleTime);
-    midHPF.process(midLPF.lowpass(), sampleTime);
-    return midHPF.highpass() * midDecay.getValue() * controls->getMidLevel() * 5.f; 
-}
-
-float KickEngine::processHead(float sampleRate, float sampleTime)
-{
-    headModDecay.process(sampleRate, sampleTime);
-    headOscillator.setModIndex(headModIndex * headModDecay.getValue());
-    headOscillator.process(sampleRate, sampleTime);
-    headDecay.process(sampleRate, sampleTime);
-    headLPF.process(headOscillator.getImaginary(), sampleTime);
-    headHPF.process(headLPF.lowpass(), sampleTime);
-    return headHPF.highpass() * headDecay.getValue() * controls->getHeadLevel() * 5.f; 
-}
-
-void KickEngine::process(float sampleRate, float sampleTime) {
-    updateState(sampleRate, sampleTime);
-    if (_ON) {
-        float out = 0;
-        out += processLows(sampleRate, sampleTime);
-        out += processMids(sampleRate, sampleTime);
-        out += processHead(sampleRate, sampleTime);
-        controls->setOutputVoltage(out);
     }
+    void init(float sampleRate) override
+    {
+        float tone = controls->getMidTone();
+        float character = controls->getMidCharacter();
+        modIndex = 8.f;
+        oscillator = FMOscillator(tone, character, modIndex);
+        float decay = controls->getMidDecay();
+        decayEnvelope.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
+        modDecayEnvelope.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
+        LPF.setCutoff(controls->getMidLP());
+        HPF.setCutoff(controls->getMidHP());
+    }
+    float process(float sampleRate, float sampleTime) override
+    {
+        modDecayEnvelope.process(sampleRate, sampleTime);
+        oscillator.setModIndex(modIndex * modDecayEnvelope.getValue());
+        oscillator.process(sampleRate, sampleTime);
+        decayEnvelope.process(sampleRate, sampleTime);
+        LPF.process(oscillator.getImaginary(), sampleTime);
+        HPF.process(LPF.lowpass(), sampleTime);
+        return HPF.highpass() * decayEnvelope.getValue() * controls->getMidLevel() * 5.f; 
+    }
+    void reset() override
+    {
+        oscillator.reset();
+    }
+    private:
+    FMOscillator oscillator;
+    EnvelopeGenerator decayEnvelope;
+    float modIndex;
+    EnvelopeGenerator modDecayEnvelope;
+    LadderFilter<float> LPF;
+    LadderFilter<float> HPF;
+    KickControls *controls;
+};
+
+class Head : public PercussionSection
+{
+    public:
+    Head(KickControls *controls)
+    {
+        this->controls = controls;
+    }
+    ~Head()
+    {
+
+    }
+    private:
+    void init(float sampleRate) override
+    {
+        float tone = controls->getHeadTone();
+        float character = controls->getHeadCharacter();
+        modIndex = 8.f;
+        oscillator = FMOscillator(tone, character, modIndex);
+        float decay = controls->getHeadDecay();
+        decayEnvelope.init(1.f/(4.f*tone), decay, 0.0, 0.0, sampleRate);
+        modDecayEnvelope.init(1.f/(4.f*character), decay * 2.f / 3.f, 0.5, 0.f, sampleRate);
+        LPF.setCutoff(controls->getHeadLP());
+        HPF.setCutoff(controls->getHeadHP());
+    }
+    float process(float sampleRate, float sampleTime) override
+    {
+        modDecayEnvelope.process(sampleRate, sampleTime);
+        oscillator.setModIndex(modIndex * modDecayEnvelope.getValue());
+        oscillator.process(sampleRate, sampleTime);
+        decayEnvelope.process(sampleRate, sampleTime);
+        LPF.process(oscillator.getImaginary(), sampleTime);
+        HPF.process(LPF.lowpass(), sampleTime);
+        return HPF.highpass() * decayEnvelope.getValue() * controls->getHeadLevel() * 5.f;
+    }
+    void reset() override
+    {
+        oscillator.reset();
+    }
+    FMOscillator oscillator;
+    float modIndex;
+    EnvelopeGenerator modDecayEnvelope;
+    EnvelopeGenerator decayEnvelope;
+    LadderFilter<float> LPF;
+    LadderFilter<float> HPF;
+    KickControls *controls;
+};
+
+
+
+KickEngine::KickEngine(KickControls *controls) : PercussionEngine(controls)
+{
+    sections.push_back(new Low(controls));
+    sections.push_back(new Mid(controls));
+    sections.push_back(new Head(controls));
 }
+
 

@@ -12,7 +12,7 @@ inline float VoltageToFrequency(float volts)
     return FREQ_C4 * std::pow(2, volts);
 }
 
-void KickControls::setOutputVoltage(float val)
+void KickControls::setOutputVoltage(float val) 
 {
     this->setOutput(Kick::OUTPUT_OUTPUT, val);
 }
