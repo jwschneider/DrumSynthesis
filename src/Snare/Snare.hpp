@@ -70,6 +70,9 @@ class Snare : public Module {
     json_t* dataToJson() override;
     void dataFromJson(json_t *rootJ) override;
 
+
+    static std::map<int, int> paramToRow;
+
     private:    
 };
 

@@ -58,4 +58,17 @@ void Snare::dataFromJson(json_t *rootJ)
 		}
 }
 
+std::map<int, int> Snare::paramToRow =  
+{
+        {BASEFQ_PARAM, 0}, {BASEDECAY_PARAM, 1}, {BASEAMP_PARAM, 2},
+        {HARMONIC1_PARAM, 3}, {HARMONIC2_PARAM, 4}, {HARMONICSPACING_PARAM, 5},
+        {HARMONICDECAY_PARAM, 6}, {HARMONICAMP_PARAM, 7}, {FMTONE_PARAM, 8},
+        {FMCHARACTER_PARAM, 9}, {FMDEPTH_PARAM, 10}, {FMFEEDBACK_PARAM, 11},
+        {FMAMP_PARAM, 12}, {NOISECOLOR_PARAM, 13}, {RINGMODULATION_PARAM, 14},
+        {NOISEAMP_PARAM, 15}, {VELOCITY_PARAM, 16}, {SNAREDECAY_PARAM, 17},
+        {SNAREAMP_PARAM, 18}, {NOTCH1_PARAM, 19}, {NOTCH2_PARAM, 20},
+        {NOTCH3_PARAM, 21}, {LPF_PARAM, 22}, {HPF_PARAM, 23},
+        {MASTERAMP_PARAM, 24} 
+};
+
 //Model* modelSnare = createModel<Snare, SnareWidget>("Snare");

@@ -71,7 +71,7 @@ class ModMatrixWidget : public TransparentWidget {
     }
     private:
     std::shared_ptr<Font> font;
-    SnareControls *controls;
+    SnareControls *controls = NULL;
 };
 
 snare::SnarePanel::SnarePanel(Snare *module)
