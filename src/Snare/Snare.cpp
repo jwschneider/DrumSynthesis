@@ -45,7 +45,7 @@ void Snare::process(const ProcessArgs& args) {
 json_t* Snare::dataToJson()
 {
 	json_t *rootJ = json_object();
-	json_object_set_new(rootJ, "modMatrix", engine->controls->modMatrixToJson());
+	json_object_set_new(rootJ, "modMatrix", engine->getControls()->modMatrixToJson());
 	return rootJ;
 }
 
@@ -54,7 +54,7 @@ void Snare::dataFromJson(json_t *rootJ)
 	json_t *modMatrix = json_object_get(rootJ, "modMatrix");
 	if (modMatrix != NULL)
 		{
-			engine->controls->modMatrixFromJson(modMatrix);
+			engine->getControls()->modMatrixFromJson(modMatrix);
 		}
 }
 

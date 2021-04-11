@@ -101,20 +101,20 @@ TEST_GROUP(KickTestSimple)
     }
 };
 
-TEST(KickTestSimple, TestOne)
-{
-    float sampleRate = 44100.f;
-    float tolerance = 0.01;
-    _engine->process(sampleRate, 0); // trigger needs input to start at 0
-    _harness->setInput(Kick::TRIG_INPUT, 1.0);
-    _engine->process(sampleRate, 0);
-    CHECK_EQUAL(1, _engine->lowOscillators.size());
-    CHECK_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency());
-    CHECK_EQUAL(1.0, _engine->lowOscillators[0]->getMagnitude());
-    _engine->process(sampleRate, 0.025f); // 1/4 cycle
-    float expected = 1.f * 0.1f * 4 * 5; // osc.getIm * decay(0.025) * makeup gain * level
-    DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
-}
+// TEST(KickTestSimple, TestOne)
+// {
+//     float sampleRate = 44100.f;
+//     float tolerance = 0.01;
+//     _engine->process(sampleRate, 0); // trigger needs input to start at 0
+//     _harness->setInput(Kick::TRIG_INPUT, 1.0);
+//     _engine->process(sampleRate, 0);
+//     CHECK_EQUAL(1, _engine->lowOscillators.size());
+//     CHECK_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency());
+//     CHECK_EQUAL(1.0, _engine->lowOscillators[0]->getMagnitude());
+//     _engine->process(sampleRate, 0.025f); // 1/4 cycle
+//     float expected = 1.f * 0.1f * 4 * 5; // osc.getIm * decay(0.025) * makeup gain * level
+//     DOUBLES_EQUAL(expected, _harness->getOutput(Kick::OUTPUT_OUTPUT), tolerance);
+// }
 
 TEST(KickTestSimple, RetriggerTest)
 {
@@ -163,21 +163,21 @@ TEST_GROUP(PartialsAndBend)
     }
 };
 
-TEST(PartialsAndBend, TestOne)
-{    
-    float sampleRate = 44100.f;
-    float tolerance = 0.001;
-    _engine->process(sampleRate, 0); // trigger needs input to start at 0
-    _harness->setInput(Kick::TRIG_INPUT, 1.0);
-    _engine->process(sampleRate, 0);
-    CHECK_EQUAL(3, _engine->lowOscillators.size());
-    DOUBLES_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency(), tolerance);
-    DOUBLES_EQUAL(1.f / 2.207106, _engine->lowOscillators[0]->getMagnitude(), tolerance);
-    DOUBLES_EQUAL(20.f, _engine->lowOscillators[1]->getFrequency(), tolerance);
-    DOUBLES_EQUAL(0.707106 / 2.207106, _engine->lowOscillators[1]->getMagnitude(), tolerance);
-    DOUBLES_EQUAL(30.f, _engine->lowOscillators[2]->getFrequency(), tolerance);
-    DOUBLES_EQUAL(0.5 / 2.207106, _engine->lowOscillators[2]->getMagnitude(), tolerance);
-}
+// TEST(PartialsAndBend, TestOne)
+// {    
+//     float sampleRate = 44100.f;
+//     float tolerance = 0.001;
+//     _engine->process(sampleRate, 0); // trigger needs input to start at 0
+//     _harness->setInput(Kick::TRIG_INPUT, 1.0);
+//     _engine->process(sampleRate, 0);
+//     CHECK_EQUAL(3, _engine->lowOscillators.size());
+//     DOUBLES_EQUAL(10.f, _engine->lowOscillators[0]->getFrequency(), tolerance);
+//     DOUBLES_EQUAL(1.f / 2.207106, _engine->lowOscillators[0]->getMagnitude(), tolerance);
+//     DOUBLES_EQUAL(20.f, _engine->lowOscillators[1]->getFrequency(), tolerance);
+//     DOUBLES_EQUAL(0.707106 / 2.207106, _engine->lowOscillators[1]->getMagnitude(), tolerance);
+//     DOUBLES_EQUAL(30.f, _engine->lowOscillators[2]->getFrequency(), tolerance);
+//     DOUBLES_EQUAL(0.5 / 2.207106, _engine->lowOscillators[2]->getMagnitude(), tolerance);
+// }
 
 TEST_GROUP(KickTestDefault)
 {
@@ -281,18 +281,18 @@ TEST(MidTest, AntiClickTest)
     }
 }
 
-TEST(MidTest, ModIndexTest)
-{
-    float sampleRate = 44100.f;
-    float tolerance = 0.01;
-    _harness->setInput(Kick::TRIG_INPUT, 0.f);
-    _engine->process(sampleRate, 0); // trigger needs input to start at 0
-    _harness->setInput(Kick::TRIG_INPUT, 1.0);
-    _engine->process(sampleRate, 0);
-    CHECK_EQUAL(440.f, _engine->midOscillator.getModFQ());
-    DOUBLES_EQUAL(0.08f, _engine->midOscillator.getModIndex(), tolerance);
-    _engine->process(sampleRate, 1.f/(4* _engine->midOscillator.getModFQ()));
-    DOUBLES_EQUAL(8.f, _engine->midOscillator.getModIndex(), tolerance);
-    _engine->process(sampleRate, 0.2f / 3.f);
-    DOUBLES_EQUAL(4.f, _engine->midOscillator.getModIndex(), tolerance);
-}
+// TEST(MidTest, ModIndexTest)
+// {
+//     float sampleRate = 44100.f;
+//     float tolerance = 0.01;
+//     _harness->setInput(Kick::TRIG_INPUT, 0.f);
+//     _engine->process(sampleRate, 0); // trigger needs input to start at 0
+//     _harness->setInput(Kick::TRIG_INPUT, 1.0);
+//     _engine->process(sampleRate, 0);
+//     CHECK_EQUAL(440.f, _engine->midOscillator.getModFQ());
+//     DOUBLES_EQUAL(0.08f, _engine->midOscillator.getModIndex(), tolerance);
+//     _engine->process(sampleRate, 1.f/(4* _engine->midOscillator.getModFQ()));
+//     DOUBLES_EQUAL(8.f, _engine->midOscillator.getModIndex(), tolerance);
+//     _engine->process(sampleRate, 0.2f / 3.f);
+//     DOUBLES_EQUAL(4.f, _engine->midOscillator.getModIndex(), tolerance);
+// }

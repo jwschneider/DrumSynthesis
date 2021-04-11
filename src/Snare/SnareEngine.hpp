@@ -6,6 +6,6 @@ namespace snare {
     class SnareEngine : public PercussionEngine {
         public:
         SnareEngine(SnareControls *controls);
-        SnareControls *controls;
+        SnareControls *getControls();
     };
 }

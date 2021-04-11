@@ -49,3 +49,8 @@ SnareEngine::SnareEngine(SnareControls *controls) : PercussionEngine(controls)
 {
     sections.push_back(new Base(controls));
 }
+
+SnareControls *SnareEngine::getControls()
+{
+    return (SnareControls *) controls;
+}

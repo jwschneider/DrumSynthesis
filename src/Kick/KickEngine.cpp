@@ -132,7 +132,6 @@ class Head : public PercussionSection
     {
 
     }
-    private:
     void init(float sampleRate) override
     {
         float tone = controls->getHeadTone();
@@ -159,6 +158,7 @@ class Head : public PercussionSection
     {
         oscillator.reset();
     }
+    private:
     FMOscillator oscillator;
     float modIndex;
     EnvelopeGenerator modDecayEnvelope;

@@ -1,5 +1,6 @@
 #pragma once
 #include "../common/PercussionControls.hpp"
+#include "jansson.h"
 
 
 namespace snare {
@@ -33,7 +34,14 @@ class SnareControls : public PercussionControls {
     json_t *modMatrixToJson();
     void modMatrixFromJson(json_t *modMatrix);
 
+    const static int MOD_MATRIX_COLUMNS = 5;
+    const static int MOD_MATRIX_ROWS = 25;
+    const static int MOD_MATRIX_PANEL_COLUMNS = MOD_MATRIX_COLUMNS - 1;
+    const static int MOD_MATRIX_PANEL_ROWS = MOD_MATRIX_ROWS;
+
     private:
-    int **_modMatrix;
+    void incrementModMatrixRowCount(int i);
+    void decrementModMatrixRowCount(int i);
+    int _modMatrix[MOD_MATRIX_COLUMNS * MOD_MATRIX_ROWS] = {0};
 };
 } //namespace snare

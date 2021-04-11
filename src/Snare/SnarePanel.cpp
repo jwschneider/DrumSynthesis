@@ -18,15 +18,15 @@ class ModMatrixWidget : public TransparentWidget {
 
     float i_to_y(int i, float characterHeight, float boxHeight)
     {
-        float space = boxHeight - characterHeight * Snare::MOD_MATRIX_ROWS;
-        float spacePerLetter = space / (Snare::MOD_MATRIX_ROWS);
+        float space = boxHeight - characterHeight * SnareControls::MOD_MATRIX_PANEL_ROWS;
+        float spacePerLetter = space / (SnareControls::MOD_MATRIX_PANEL_ROWS);
         return (i)*spacePerLetter + (i+1)*characterHeight;
 
     }
     float j_to_x(int j, float characterWidth, float boxWidth)
     {
-        float space = boxWidth - characterWidth * Snare::MOD_MATRIX_COLUMNS;
-        float spacePerLetter = space / (Snare::MOD_MATRIX_COLUMNS);
+        float space = boxWidth - characterWidth * SnareControls::MOD_MATRIX_PANEL_COLUMNS;
+        float spacePerLetter = space / (SnareControls::MOD_MATRIX_PANEL_COLUMNS);
         return (j+0.5f)*spacePerLetter + j*characterWidth;
     }
     void draw(const DrawArgs &args) override
@@ -42,10 +42,10 @@ class ModMatrixWidget : public TransparentWidget {
         nvgTextBounds(args.vg, 0, 0, to_display, NULL, to_display_bounds);
         float xWidth = to_display_bounds[2] - to_display_bounds[0];
         float xHeight = to_display_bounds[3] - to_display_bounds[1];
-        for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+        for (int i = 0; i < SnareControls::MOD_MATRIX_PANEL_ROWS; i++)
         {
             if (controls->getModMatrixRowCount(i))
-                for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS; j++)
+                for (int j = 0; j < SnareControls::MOD_MATRIX_PANEL_COLUMNS; j++)
                 {
                     if (controls->getModMatrixEntry(i, j))
                     {
@@ -62,8 +62,8 @@ class ModMatrixWidget : public TransparentWidget {
         if (e.button == GLFW_MOUSE_BUTTON_LEFT && e.action == GLFW_RELEASE)
         {
             // calculate which i, j in panel, but set the bits in the array in engine
-            int j = e.pos.x * Snare::MOD_MATRIX_COLUMNS / box.size.x;
-            int i = e.pos.y * Snare::MOD_MATRIX_ROWS / box.size.y;
+            int j = e.pos.x * SnareControls::MOD_MATRIX_PANEL_COLUMNS / box.size.x;
+            int i = e.pos.y * SnareControls::MOD_MATRIX_PANEL_ROWS / box.size.y;
             controls->toggleModMatrixEntry(i, j);
             //DEBUG("l mouse click at (%f, %f) becomes mod matrix entry of (%d, %d)", e.pos.y, e.pos.x, i, j);
             e.consume(this);
@@ -129,7 +129,7 @@ snare::SnarePanel::SnarePanel(Snare *module)
     MatrixDisplay->box.pos = mm2px(Vec(47.191, 18.255));
     MatrixDisplay->box.size = mm2px(Vec(12.197, 78.846));
     if (module)
-        MatrixDisplay->setControls(module->engine->controls);
+        MatrixDisplay->setControls(module->engine->getControls());
     addChild(MatrixDisplay);
 
 

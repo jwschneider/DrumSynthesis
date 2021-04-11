@@ -5,17 +5,18 @@ using namespace snare;
 
 SnareControls::SnareControls(vector<Param>* p, vector<Output>* o, vector<Input>* i, vector<Light>* l) : PercussionControls {p, o, i, l}
 {
-
-    _modMatrix = new int*[Snare::MOD_MATRIX_ROWS];
-    for (uint32_t i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
-    {
-        _modMatrix[i] = new int[Snare::MOD_MATRIX_COLUMNS + 1] {0};
-    }
+    // _modMatrix = new int*[Snare::MOD_MATRIX_ROWS];
+    // for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+    // {
+    //     _modMatrix[i] = new int[Snare::MOD_MATRIX_COLUMNS + 1] {0};
+    // }
+    
 }
 SnareControls::~SnareControls()
 {
-    delete[] _modMatrix;
+    
 }
+
 
 float SnareControls::getParam(int param)
 {
@@ -23,7 +24,7 @@ float SnareControls::getParam(int param)
     int row = Snare::paramToRow[param];
     if (getModMatrixRowCount(row))
     {
-        for (int col = 0; col < Snare::MOD_MATRIX_COLUMNS; col++)
+        for (int col = 0; col < SnareControls::MOD_MATRIX_COLUMNS; col++)
         {
             float mval = getInput(Snare::MOD0_INPUT + col) * getParam(Snare::MOD0_PARAM + col) * getModMatrixEntry(row, col);
             pval += mval;
@@ -66,40 +67,51 @@ float SnareControls::getBaseAmp()
 
 int SnareControls::getModMatrixEntry(int i, int j)
 {
-    return _modMatrix[i][j];
-}
-void SnareControls::toggleModMatrixEntry(int i, int j)
-{
-    int val = _modMatrix[i][j];
-    if (val)
-    {
-        _modMatrix[i][Snare::MOD_MATRIX_COLUMNS]--;
-        _modMatrix[i][j] = 0;
-    }
-    else
-    {
-        _modMatrix[i][Snare::MOD_MATRIX_COLUMNS]++;
-        _modMatrix[i][j] = 1;
-    }
+    return _modMatrix[i*MOD_MATRIX_COLUMNS + j];
 }
 
 void SnareControls::setModMatrixEntry(int i, int j, int val)
 {
-    _modMatrix[i][j] = val;
+    _modMatrix[i*MOD_MATRIX_COLUMNS + j] = val;
+}
+
+void SnareControls::toggleModMatrixEntry(int i, int j)
+{
+    int val = getModMatrixEntry(i, j);
+    if (val)
+    {
+        decrementModMatrixRowCount(i);
+        setModMatrixEntry(i, j, 0);
+    }
+    else
+    {
+        incrementModMatrixRowCount(i);
+        setModMatrixEntry(i, j, 1);
+    }
 }
 
 int SnareControls::getModMatrixRowCount(int i)
 {
-    return _modMatrix[i][Snare::MOD_MATRIX_COLUMNS];
+    return getModMatrixEntry(i, MOD_MATRIX_COLUMNS - 1);
 }
+
+void SnareControls::incrementModMatrixRowCount(int i)
+{
+    _modMatrix[(i+1)*(MOD_MATRIX_COLUMNS) - 1]++;
+}
+void SnareControls::decrementModMatrixRowCount(int i)
+{
+    _modMatrix[(i+1)*(MOD_MATRIX_COLUMNS) - 1]--;
+}
+
 json_t *SnareControls::modMatrixToJson()
 {
     //DEBUG("modMatrix: %d", _modMatrix);
     json_t *modMatrix = json_array();
-    for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+    for (int i = 0; i < MOD_MATRIX_ROWS; i++)
     {
         json_t *row = json_array();
-        for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS + 1; j++)
+        for (int j = 0; j < MOD_MATRIX_COLUMNS; j++)
         {
             //DEBUG("modMatrix i, j = %d, %d", i, j);
             json_array_append_new(row, json_integer(getModMatrixEntry(i, j)));
@@ -110,14 +122,18 @@ json_t *SnareControls::modMatrixToJson()
 }
 void SnareControls::modMatrixFromJson(json_t *modMatrix)
 {
-    for (int i = 0; i < Snare::MOD_MATRIX_ROWS; i++)
+    if (json_is_array(modMatrix))
     {
-        json_t *row = json_array_get(modMatrix, i);
+        for (int i = 0; i < MOD_MATRIX_ROWS; i++)
         {
-            for (int j = 0; j < Snare::MOD_MATRIX_COLUMNS + 1; j++)
+            json_t *row = json_array_get(modMatrix, i);
+            if (json_is_array(modMatrix))
             {
-                json_t *entry = json_array_get(row, j);
-                setModMatrixEntry(i, j, json_integer_value(entry));
+                for (int j = 0; j < MOD_MATRIX_COLUMNS; j++)
+                {
+                    json_t *entry = json_array_get(row, j);
+                    setModMatrixEntry(i, j, json_integer_value(entry));
+                }
             }
         }
     }
