@@ -24,9 +24,11 @@ float SnareControls::getParam(int param)
     int row = Snare::paramToRow[param];
     if (getModMatrixRowCount(row))
     {
-        for (int col = 0; col < SnareControls::MOD_MATRIX_COLUMNS; col++)
+        for (int col = 0; col < SnareControls::MOD_MATRIX_PANEL_COLUMNS; col++)
         {
-            float mval = getInput(Snare::MOD0_INPUT + col) * getParam(Snare::MOD0_PARAM + col) * getModMatrixEntry(row, col);
+            DEBUG("row, col: %d, %d", row, col);
+            float mval = ModuleControls::getInput(Snare::MOD0_INPUT + col) * ModuleControls::getParam(Snare::MOD0_PARAM + col) * getModMatrixEntry(row, col);
+            DEBUG("mval: %f", mval);
             pval += mval;
         }
     }
