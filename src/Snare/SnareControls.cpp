@@ -67,6 +67,21 @@ float SnareControls::getBaseAmp()
     return pval;
 }
 
+float SnareControls::getTriangleFQ()
+{
+    float freq = getParam(Snare::HARMONICSPACING_PARAM);
+    freq = clamp(freq, -5.f, 5.f);
+    return dsp::FREQ_C4 * std::pow(2, freq);
+}
+float SnareControls::getFQShift1()
+{
+
+}
+float SnareControls::getFQShift2()
+{
+
+}
+
 int SnareControls::getModMatrixEntry(int i, int j)
 {
     return _modMatrix[i*MOD_MATRIX_COLUMNS + j];

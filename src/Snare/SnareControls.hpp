@@ -25,6 +25,12 @@ class SnareControls : public PercussionControls {
     float getBaseDecay();
     // Get the base amplitude gain
     float getBaseAmp();
+    // Gets the fundamental frequency of the triangle wave which will be used to create the harmonics
+    float getTriangleFQ();
+    // Gets the base frequency of the first harmonic
+    float getHarmonic1();
+    // Gets the base frequency of the second harmonic
+    float getHarmonic2();
 
     // Mod Matrix tools
     int getModMatrixEntry(int i, int j);
